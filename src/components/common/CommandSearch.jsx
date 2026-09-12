@@ -72,6 +72,7 @@ export default function CommandSearch({
         >
           <SearchRoundedIcon sx={{ color: TEXT_SECONDARY }} />
           <TextField
+            className="pm-command-search-input"
             autoFocus
             fullWidth
             value={query}

@@ -701,3 +701,129 @@ body {
     border-radius: 14px !important;
   }
 }
+
+:root {
+  --pm-control-height: 40px;
+  --pm-control-radius: 10px;
+}
+
+/* Primary action controls */
+.MuiButton-root {
+  height: var(--pm-control-height) !important;
+  min-height: var(--pm-control-height) !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  border-radius: var(--pm-control-radius) !important;
+  text-transform: none;
+  font-weight: 650;
+  letter-spacing: 0.005em;
+}
+
+/* Text fields / selects / autocomplete inputs */
+.MuiOutlinedInput-root,
+.MuiFilledInput-root,
+.MuiInput-root {
+  min-height: var(--pm-control-height);
+  box-sizing: border-box;
+  border-radius: var(--pm-control-radius);
+}
+
+/* Keep the actual input text vertically centered */
+.MuiOutlinedInput-input,
+.MuiFilledInput-input,
+.MuiInput-input {
+  height: var(--pm-control-height) !important;
+  min-height: 0 !important;
+  box-sizing: border-box !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+/* Selects use the same outer height */
+.MuiSelect-select {
+  min-height: 0 !important;
+  height: var(--pm-control-height) !important;
+  display: flex !important;
+  align-items: center !important;
+  box-sizing: border-box !important;
+}
+
+/* Native-looking date/time and other MUI inputs */
+.MuiInputBase-root:not(.MuiInputBase-multiline) {
+  min-height: var(--pm-control-height);
+}
+
+/* Multiline fields are intentionally allowed to grow */
+.MuiInputBase-root.MuiInputBase-multiline,
+.MuiInputBase-root:has(textarea) {
+  min-height: unset;
+  height: auto;
+}
+.MuiInputBase-inputMultiline {
+  height: auto !important;
+  min-height: 80px !important;
+  padding-top: 12px !important;
+  padding-bottom: 12px !important;
+}
+
+/* Search fields across the application */
+.pm-search-field,
+.pm-search-field .MuiInputBase-root,
+.pm-search-field .MuiOutlinedInput-root {
+  height: var(--pm-control-height) !important;
+  min-height: var(--pm-control-height) !important;
+  box-sizing: border-box !important;
+}
+
+.pm-search-field .MuiInputBase-input {
+  height: auto !important;
+  min-height: 0 !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+/* Command palette search */
+.pm-command-search-input {
+  min-height: var(--pm-control-height) !important;
+  height: var(--pm-control-height) !important;
+  display: flex !important;
+  align-items: center !important;
+  padding: 0 12px !important;
+  border: 1px solid #dfe5f0 !important;
+  border-radius: var(--pm-control-radius) !important;
+  background: #fff !important;
+  transition:
+    border-color 160ms ease,
+    box-shadow 160ms ease;
+}
+.pm-command-search-input:focus-within {
+  border-color: rgba(91, 92, 226, 0.65) !important;
+  box-shadow: 0 0 0 3px rgba(91, 92, 226, 0.1);
+}
+.pm-command-search-input .MuiInputBase-root {
+  min-height: 0 !important;
+  height: 100% !important;
+}
+
+/* Autocomplete keeps the same control rhythm */
+.MuiAutocomplete-root .MuiOutlinedInput-root {
+  min-height: var(--pm-control-height) !important;
+}
+.MuiAutocomplete-input {
+  height: auto !important;
+}
+
+/* Compact icon buttons are not part of the 40px field rhythm */
+.MuiIconButton-root {
+  flex-shrink: 0;
+}
+
+/* Consistent focus treatment */
+.MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+  border-width: 1.5px !important;
+}
+
+/* Do not force height on table/action icon buttons */
+.MuiTableCell-root .MuiButton-root {
+  height: var(--pm-control-height) !important;
+}
