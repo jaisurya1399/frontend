@@ -22,6 +22,7 @@ import NotificationBell from "../notifications/NotificationBell";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
+import PlanoraLogo from "../../PlanoraLogo";
 import { BORDER, PRIMARY, TOPBAR } from "../../theme/colors";
 
 export default function Topbar({ onMenuClick = () => {} }) {
@@ -62,10 +63,10 @@ export default function Topbar({ onMenuClick = () => {} }) {
         position="sticky"
         elevation={0}
         sx={{
-          bgcolor: "rgba(255,255,255,.82)",
+          bgcolor: "rgba(255,255,255,.78)",
           backdropFilter: "blur(14px)",
           boxShadow:
-            "0 1px 0 rgba(16,24,40,.04), 0 10px 30px rgba(16,24,40,.035)",
+            "0 1px 0 rgba(16,24,40,.04), 0 14px 34px rgba(16,24,40,.045)",
           color: TOPBAR.textPrimary,
           borderBottom: `1px solid ${BORDER}`,
           zIndex: (theme) => theme.zIndex.drawer + 1,
@@ -85,6 +86,17 @@ export default function Topbar({ onMenuClick = () => {} }) {
           >
             <MenuIcon />
           </IconButton>
+          <Box
+            sx={{
+              display: { xs: "none", md: "flex" },
+              alignItems: "center",
+              pr: 1.5,
+              mr: 0.5,
+              borderRight: "1px solid rgba(16,24,40,.08)",
+            }}
+          >
+            <PlanoraLogo size={30} showText={false} />
+          </Box>
           <Box sx={{ display: { xs: "none", sm: "block" }, minWidth: 180 }}>
             <Typography sx={{ fontSize: 14, fontWeight: 800 }}>
               Admin Workspace
@@ -117,12 +129,12 @@ export default function Topbar({ onMenuClick = () => {} }) {
               justifyContent: "flex-start",
               textTransform: "none",
               color: "text.secondary",
-              bgcolor: "#F8F9FC",
+              bgcolor: "#F3F5FF",
               border: `1px solid ${BORDER}`,
               borderRadius: 2.5,
               minHeight: 40,
               px: 1.5,
-              "&:hover": { bgcolor: "#F1F3F8", borderColor: "#D0D5DD" },
+              "&:hover": { bgcolor: "#EAECFF", borderColor: "#BFC5F5" },
             }}
           >
             Search projects, tickets, people...

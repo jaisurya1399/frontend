@@ -26,6 +26,7 @@ import {
 
 import { NavLink } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
+import PlanoraLogo from "../../PlanoraLogo";
 import { MOTION, PRIORITY_COLORS, RADIUS, SIDEBAR } from "../../theme/colors";
 
 export const DRAWER_WIDTH = SIDEBAR.width;
@@ -171,19 +172,14 @@ export default function Sidebar({ mobileOpen = false, onClose = () => {} }) {
       >
         <Box
           sx={{
-            width: 38,
-            height: 38,
-            borderRadius: 2,
-            display: "grid",
-            placeItems: "center",
-            background: "linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)",
-            color: "#fff",
-            fontWeight: 800,
-            fontSize: 13,
-            boxShadow: "0 8px 20px rgba(79,70,229,.24)",
+            p: 0.5,
+            borderRadius: 2.5,
+            background: "rgba(255,255,255,.05)",
+            border: "1px solid rgba(200,161,90,.18)",
+            flexShrink: 0,
           }}
         >
-          PM
+          <PlanoraLogo size={34} dark showText={false} />
         </Box>
         <Box>
           <Typography
@@ -194,7 +190,7 @@ export default function Sidebar({ mobileOpen = false, onClose = () => {} }) {
               color: "#FFFFFF",
             }}
           >
-            Project Management
+            Planora
           </Typography>
 
           <Typography

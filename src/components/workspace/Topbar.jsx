@@ -19,6 +19,7 @@ import NotificationBell from "../notifications/NotificationBell";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
+import PlanoraLogo from "../../PlanoraLogo";
 import { BORDER, PRIMARY, TOPBAR } from "../../theme/colors";
 
 const SEARCH_ITEMS = [
@@ -96,6 +97,17 @@ export default function Topbar({ onMenuClick }) {
           >
             <MenuIcon />
           </IconButton>
+          <Box
+            sx={{
+              display: { xs: "none", md: "flex" },
+              alignItems: "center",
+              pr: 1.5,
+              mr: 0.5,
+              borderRight: "1px solid rgba(16,24,40,.08)",
+            }}
+          >
+            <PlanoraLogo size={30} showText={false} />
+          </Box>
           <Box sx={{ display: { xs: "none", sm: "block" }, minWidth: 170 }}>
             <Typography sx={{ fontSize: 14, fontWeight: 800 }}>
               Team Workspace
@@ -114,12 +126,12 @@ export default function Topbar({ onMenuClick }) {
               justifyContent: "flex-start",
               textTransform: "none",
               color: "text.secondary",
-              bgcolor: "#F8F9FC",
+              bgcolor: "#F3F5FF",
               border: `1px solid ${BORDER}`,
               borderRadius: 2.5,
               minHeight: 40,
               px: 1.5,
-              "&:hover": { bgcolor: "#F1F3F8" },
+              "&:hover": { bgcolor: "#EAECFF" },
             }}
           >
             Search projects, tasks and people...

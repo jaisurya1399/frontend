@@ -1,24 +1,24 @@
 // Central enterprise design tokens for the project management application.
-export const PRIMARY = "#4F46E5";
-export const PRIMARY_HOVER = "#4338CA";
-export const PRIMARY_SUBTLE = "#EEF2FF";
-export const PRIMARY_TINT = "#E0E7FF";
-export const SECONDARY = "#475569";
-export const ACCENT_PURPLE = "#7C3AED";
+export const PRIMARY = "#5B5CE2";
+export const PRIMARY_HOVER = "#4748C9";
+export const PRIMARY_SUBTLE = "#EEF0FF";
+export const PRIMARY_TINT = "#DDE2FF";
+export const SECONDARY = "#64748B";
+export const ACCENT_PURPLE = "#8B5CF6";
 
-export const CANVAS_BACKGROUND = "#F3F5FA";
+export const CANVAS_BACKGROUND = "#F4F7FC";
 export const SURFACE = "#FFFFFF";
-export const SURFACE_SUBTLE = "#F7F8FC";
-export const BORDER = "#E7EAF0";
-export const BORDER_STRONG = "#D7DBE4";
+export const SURFACE_SUBTLE = "#F7F8FF";
+export const BORDER = "#E3E8F2";
+export const BORDER_STRONG = "#CBD4E2";
 
-export const TEXT_PRIMARY = "#111827";
-export const TEXT_SECONDARY = "#667085";
+export const TEXT_PRIMARY = "#17213D";
+export const TEXT_SECONDARY = "#61708D";
 // Was #94A3B8 (2.56:1 on white — fails WCAG AA for text). Darkened to a
 // value that still reads as "muted" but clears 4.5:1 for any readable
 // content (labels, section headers, placeholders). Reserve the old, lighter
 // #94A3B8 only for genuinely non-text/disabled UI, which is exempt.
-export const TEXT_FAINT = "#98A2B3";
+export const TEXT_FAINT = "#8996AD";
 
 export const SEMANTIC_COLORS = {
   success: { main: "#15803D", bg: "#F0FDF4", border: "#BBF7D0" },
@@ -57,7 +57,7 @@ export const ISSUE_TYPE_COLORS = {
 };
 
 export const TOPBAR = {
-  background: "rgba(255,255,255,.94)",
+  background: "rgba(255,255,255,.90)",
   height: 68,
   textPrimary: TEXT_PRIMARY,
   iconSecondary: TEXT_SECONDARY,
@@ -65,17 +65,17 @@ export const TOPBAR = {
 };
 
 export const SIDEBAR = {
-  background: "#111827",
+  background: "#121A38",
   border: "rgba(255,255,255,.08)",
   width: 264,
-  itemText: "#CBD5E1",
-  itemIcon: "#94A3B8",
-  itemHoverBg: "rgba(255,255,255,.07)",
+  itemText: "#D7DDF0",
+  itemIcon: "#9AA7C4",
+  itemHoverBg: "rgba(115,126,255,.12)",
   itemSelectedBg:
-    "linear-gradient(90deg, rgba(99,102,241,.28), rgba(124,58,237,.16))",
+    "linear-gradient(90deg, rgba(91,92,226,.34), rgba(139,92,246,.22))",
   itemSelectedText: "#FFFFFF",
-  itemSelectedIndicator: "#818CF8",
-  sectionHeader: "#64748B",
+  itemSelectedIndicator: "#8B8DF0",
+  sectionHeader: "#8996B5",
 };
 
 export const RADIUS = {
@@ -88,7 +88,7 @@ export const RADIUS = {
 };
 
 export const ELEVATION_SHADOW =
-  "0 1px 2px rgba(15,23,42,.04), 0 8px 24px rgba(15,23,42,.06)";
+  "0 2px 4px rgba(26,38,76,.04), 0 12px 32px rgba(58,72,120,.08)";
 
 // Tiered elevation used for hover/lift micro-interactions on cards,
 // menus and dialogs. Kept intentionally soft and cool-toned so depth

@@ -287,3 +287,417 @@ body {
   background: rgba(255, 255, 255, 0.72);
   backdrop-filter: blur(12px);
 }
+
+/* ============================================================
+   PLANORA PREMIUM UI SYSTEM
+   Shared visual language for every authenticated screen.
+   ============================================================ */
+:root {
+  --pm-ink: #101223;
+  --pm-gold: #c8a15a;
+  --pm-gold-soft: rgba(200, 161, 90, 0.12);
+  --pm-paper: #f7f6f2;
+  --pm-border: rgba(16, 18, 35, 0.09);
+  --pm-shadow: 0 10px 30px rgba(16, 18, 35, 0.045);
+}
+
+body {
+  background:
+    radial-gradient(
+      circle at 8% 0%,
+      rgba(200, 161, 90, 0.065),
+      transparent 22%
+    ),
+    radial-gradient(
+      circle at 100% 10%,
+      rgba(99, 102, 241, 0.065),
+      transparent 24%
+    ),
+    #f5f6f9;
+}
+
+.app-page {
+  padding: 2px 2px 36px;
+}
+
+.page-header {
+  position: relative;
+  padding: 6px 2px 20px;
+  margin-bottom: 20px;
+}
+
+.page-header h1,
+.page-header h2 {
+  letter-spacing: -0.035em;
+}
+
+.page-subtitle {
+  color: #667085;
+}
+
+.section-card,
+.pm-surface,
+.MuiCard-root {
+  border: 1px solid var(--pm-border) !important;
+  box-shadow: var(--pm-shadow);
+  border-radius: 18px !important;
+}
+
+.section-card:hover,
+.pm-surface:hover,
+.MuiCard-root:hover {
+  border-color: rgba(200, 161, 90, 0.22) !important;
+  box-shadow: 0 16px 40px rgba(16, 18, 35, 0.07);
+}
+
+.MuiPaper-root {
+  border-color: var(--pm-border);
+}
+
+.MuiButton-containedPrimary {
+  background: linear-gradient(
+    135deg,
+    #17192b 0%,
+    #2b2e4a 72%,
+    #8c6d1f 160%
+  ) !important;
+  box-shadow: 0 8px 20px rgba(16, 18, 35, 0.14) !important;
+}
+
+.MuiButton-containedPrimary:hover {
+  background: linear-gradient(
+    135deg,
+    #101223 0%,
+    #252844 72%,
+    #c8a15a 170%
+  ) !important;
+  box-shadow: 0 12px 26px rgba(16, 18, 35, 0.2) !important;
+}
+
+.MuiButton-outlined {
+  border-color: rgba(16, 18, 35, 0.12) !important;
+}
+
+.MuiButton-outlined:hover {
+  border-color: rgba(200, 161, 90, 0.45) !important;
+  background: rgba(200, 161, 90, 0.06) !important;
+}
+
+.MuiTableContainer-root {
+  border: 1px solid var(--pm-border) !important;
+  box-shadow: 0 8px 26px rgba(16, 18, 35, 0.035) !important;
+  border-radius: 16px !important;
+}
+
+.MuiTableHead-root .MuiTableCell-root {
+  background: linear-gradient(180deg, #fbfbfc 0%, #f5f6f8 100%);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.055em;
+}
+
+.MuiTableBody-root .MuiTableRow-root {
+  transition:
+    background 0.18s ease,
+    transform 0.18s ease;
+}
+
+.MuiTableBody-root .MuiTableRow-root:hover {
+  background: rgba(200, 161, 90, 0.045);
+}
+
+.MuiOutlinedInput-root {
+  background: rgba(255, 255, 255, 0.88) !important;
+}
+
+.MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline {
+  border-color: rgba(200, 161, 90, 0.55) !important;
+}
+
+.MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+  border-color: #c8a15a !important;
+  box-shadow: 0 0 0 3px rgba(200, 161, 90, 0.1);
+}
+
+.MuiChip-root {
+  border: 1px solid rgba(16, 18, 35, 0.08);
+}
+
+.MuiTabs-indicator {
+  background: linear-gradient(90deg, #c8a15a, #8c6d1f) !important;
+}
+
+.pm-page-toolbar {
+  border-color: var(--pm-border);
+  background: rgba(255, 255, 255, 0.76);
+  box-shadow: 0 8px 24px rgba(16, 18, 35, 0.035);
+}
+
+.pm-eyebrow {
+  color: #9a762b;
+}
+
+.pm-gradient-title {
+  background: linear-gradient(90deg, #101223 0%, #333653 62%, #9a762b 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+/* Premium empty/loading states and generic surfaces */
+.MuiAlert-root {
+  border: 1px solid rgba(16, 18, 35, 0.08);
+  box-shadow: 0 6px 18px rgba(16, 18, 35, 0.025);
+}
+
+@media (max-width: 700px) {
+  .app-page {
+    padding-inline: 0;
+  }
+  .section-card,
+  .pm-surface,
+  .MuiCard-root {
+    border-radius: 15px !important;
+  }
+}
+
+/* ============================================================
+   PLANORA COLORFUL PREMIUM LAYER
+   Brand gold is reserved for identity; product actions use
+   indigo/violet, positive states use emerald, information uses
+   blue/cyan, warnings use amber and destructive actions use red.
+   ============================================================ */
+:root {
+  --pm-primary: #5b5ce2;
+  --pm-primary-dark: #4748c9;
+  --pm-violet: #8b5cf6;
+  --pm-cyan: #0891b2;
+  --pm-success: #16a34a;
+  --pm-warning: #d97706;
+  --pm-danger: #dc2626;
+  --pm-gold: #c8a15a;
+  --pm-navy: #121a38;
+  --pm-page: #f4f7fc;
+  --pm-surface: rgba(255, 255, 255, 0.94);
+  --pm-border: #e3e8f2;
+}
+
+html,
+body {
+  background: var(--pm-page) !important;
+}
+
+body {
+  background:
+    radial-gradient(circle at 0% 0%, rgba(91, 92, 226, 0.1), transparent 24%),
+    radial-gradient(
+      circle at 100% 0%,
+      rgba(139, 92, 246, 0.08),
+      transparent 22%
+    ),
+    radial-gradient(
+      circle at 80% 100%,
+      rgba(8, 145, 178, 0.045),
+      transparent 24%
+    ),
+    var(--pm-page) !important;
+}
+
+/* Avoid a monochrome feel while keeping the workspace calm. */
+.app-page {
+  position: relative;
+  padding: 4px 4px 40px;
+}
+
+.app-page::after {
+  content: "";
+  position: fixed;
+  width: 420px;
+  height: 420px;
+  right: -260px;
+  bottom: -260px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(91, 92, 226, 0.07), transparent 68%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.page-header {
+  z-index: 1;
+}
+
+.page-subtitle {
+  color: #61708d !important;
+}
+
+.section-card,
+.pm-surface,
+.MuiCard-root {
+  position: relative;
+  background: var(--pm-surface) !important;
+  border: 1px solid var(--pm-border) !important;
+  border-radius: 16px !important;
+  box-shadow:
+    0 2px 5px rgba(26, 38, 76, 0.035),
+    0 14px 34px rgba(58, 72, 120, 0.065) !important;
+}
+
+.section-card:hover,
+.pm-surface:hover,
+.MuiCard-root:hover {
+  border-color: rgba(91, 92, 226, 0.22) !important;
+  box-shadow: 0 8px 24px rgba(58, 72, 120, 0.1) !important;
+}
+
+/* KPI/stat cards: let the number carry a semantic accent. */
+.MuiCard-root .MuiTypography-colorPrimary,
+.MuiCard-root .MuiTypography-root[color="primary"] {
+  color: var(--pm-primary);
+}
+
+.MuiButton-containedPrimary {
+  background: linear-gradient(
+    135deg,
+    #5b5ce2 0%,
+    #6d5de7 55%,
+    #8b5cf6 100%
+  ) !important;
+  color: #fff !important;
+  box-shadow: 0 7px 18px rgba(91, 92, 226, 0.24) !important;
+}
+.MuiButton-containedPrimary:hover {
+  background: linear-gradient(
+    135deg,
+    #4748c9 0%,
+    #5b5ce2 55%,
+    #7c3aed 100%
+  ) !important;
+  box-shadow: 0 10px 24px rgba(91, 92, 226, 0.3) !important;
+}
+
+.MuiButton-outlined {
+  border-color: #cbd4e2 !important;
+  color: #43516d !important;
+  background: rgba(255, 255, 255, 0.65) !important;
+}
+.MuiButton-outlined:hover {
+  border-color: rgba(91, 92, 226, 0.55) !important;
+  background: #f0f1ff !important;
+  color: #4748c9 !important;
+}
+
+.MuiButton-text:hover {
+  background: #f0f1ff !important;
+}
+
+.MuiOutlinedInput-root {
+  background: rgba(255, 255, 255, 0.92) !important;
+}
+.MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline {
+  border-color: rgba(91, 92, 226, 0.5) !important;
+}
+.MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+  border-color: var(--pm-primary) !important;
+  box-shadow: 0 0 0 3px rgba(91, 92, 226, 0.11);
+}
+
+.MuiTableContainer-root {
+  border: 1px solid var(--pm-border) !important;
+  border-radius: 16px !important;
+  overflow: hidden;
+  background: #fff !important;
+  box-shadow: 0 5px 22px rgba(58, 72, 120, 0.055) !important;
+}
+.MuiTableHead-root .MuiTableCell-root {
+  background: linear-gradient(180deg, #f4f6ff 0%, #eef2fa 100%) !important;
+  color: #52617d !important;
+  border-bottom: 1px solid #dde4f0 !important;
+}
+.MuiTableBody-root .MuiTableRow-root:hover {
+  background: rgba(91, 92, 226, 0.045) !important;
+}
+
+/* Chips/tags use semantic color instead of making every chip gray. */
+.MuiChip-colorSuccess {
+  background: #ecfdf3 !important;
+  color: #15803d !important;
+}
+.MuiChip-colorWarning {
+  background: #fff7e6 !important;
+  color: #b45309 !important;
+}
+.MuiChip-colorError {
+  background: #fff1f2 !important;
+  color: #b91c1c !important;
+}
+.MuiChip-colorInfo {
+  background: #ecf8ff !important;
+  color: #0369a1 !important;
+}
+
+.MuiTabs-indicator {
+  background: linear-gradient(90deg, #5b5ce2, #8b5cf6) !important;
+  height: 3px !important;
+  border-radius: 3px 3px 0 0;
+}
+.MuiTab-root.Mui-selected {
+  color: #4f50c9 !important;
+  font-weight: 700 !important;
+}
+
+.pm-page-toolbar {
+  background: rgba(255, 255, 255, 0.82) !important;
+  border-color: #e0e6f0 !important;
+  box-shadow: 0 5px 20px rgba(58, 72, 120, 0.045) !important;
+  backdrop-filter: blur(14px);
+}
+
+.pm-eyebrow {
+  color: #5b5ce2 !important;
+}
+.pm-gradient-title {
+  background: linear-gradient(
+    90deg,
+    #17213d 0%,
+    #4f50c9 58%,
+    #8b5cf6 100%
+  ) !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+}
+
+/* Common semantic surfaces used by dashboards and activity panels. */
+.pm-success {
+  color: var(--pm-success);
+  background: #ecfdf3;
+}
+.pm-info {
+  color: #0369a1;
+  background: #ecf8ff;
+}
+.pm-warning {
+  color: var(--pm-warning);
+  background: #fff7e6;
+}
+.pm-danger {
+  color: var(--pm-danger);
+  background: #fff1f2;
+}
+
+/* Keep destructive actions clearly red; don't reuse the brand gold. */
+.MuiButton-containedError {
+  background: linear-gradient(135deg, #dc2626, #ef4444) !important;
+  box-shadow: 0 6px 16px rgba(220, 38, 38, 0.18) !important;
+}
+
+/* Sidebar brand: premium navy with colorful active navigation. */
+.MuiDrawer-paper {
+  scrollbar-color: #53618a transparent;
+}
+
+@media (max-width: 700px) {
+  .section-card,
+  .pm-surface,
+  .MuiCard-root {
+    border-radius: 14px !important;
+  }
+}

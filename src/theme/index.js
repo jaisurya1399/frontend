@@ -1,7 +1,6 @@
 import { createTheme } from "@mui/material/styles";
 
 import {
-  ACCENT_PURPLE,
   BORDER,
   CANVAS_BACKGROUND,
   ELEVATION_SHADOW,
@@ -25,10 +24,10 @@ const theme = createTheme({
     primary: {
       main: PRIMARY,
       dark: PRIMARY_HOVER,
-      light: "#60A5FA",
+      light: "#8B8DF0",
       contrastText: "#FFFFFF",
     },
-    secondary: { main: ACCENT_PURPLE, contrastText: "#FFFFFF" },
+    secondary: { main: "#C8A15A", contrastText: "#17213D" },
     success: { main: SEMANTIC_COLORS.success.main },
     info: { main: SEMANTIC_COLORS.info.main },
     warning: { main: SEMANTIC_COLORS.warning.main },
@@ -101,12 +100,12 @@ const theme = createTheme({
         "::selection": { backgroundColor: "#BFDBFE" },
         "::-webkit-scrollbar": { width: 9, height: 9 },
         "::-webkit-scrollbar-thumb": {
-          background: "#CBD5E1",
+          background: "#B9C3D8",
           borderRadius: 8,
           border: "2px solid transparent",
           backgroundClip: "padding-box",
         },
-        "::-webkit-scrollbar-thumb:hover": { background: "#94A3B8" },
+        "::-webkit-scrollbar-thumb:hover": { background: "#8B96B0" },
         "::-webkit-scrollbar-track": { background: "transparent" },
         "*:focus-visible": {
           outline: `2px solid ${PRIMARY}`,
@@ -162,7 +161,7 @@ const theme = createTheme({
           borderColor: BORDER,
           backgroundColor: SURFACE,
           "&:hover": {
-            borderColor: "#94A3B8",
+            borderColor: "#A9B4C8",
             backgroundColor: SURFACE_SUBTLE,
           },
         },

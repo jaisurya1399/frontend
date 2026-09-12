@@ -32,6 +32,7 @@ import {
 import { useEffect, useMemo, useState } from "react";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
+import PlanoraLogo from "../../PlanoraLogo";
 import {
   BORDER,
   MOTION,
@@ -220,13 +221,13 @@ function Item({ item, active, onClose }) {
         px: 1.5,
         borderRadius: 1.5,
         position: "relative",
-        color: active ? PRIMARY : TEXT_SECONDARY,
+        color: active ? "#FFFFFF" : SIDEBAR.itemText,
         transition: `background-color ${MOTION.fast} ${MOTION.easing}, transform ${MOTION.fast} ${MOTION.easingOut}`,
         "&:hover": {
           bgcolor: active ? "rgba(99,102,241,.22)" : SIDEBAR.itemHoverBg,
           transform: "translateX(1px)",
         },
-        "&.active": { bgcolor: "rgba(99,102,241,.22)", fontWeight: 700 },
+        "&.active": { background: SIDEBAR.itemSelectedBg, color: "#FFFFFF", fontWeight: 700 },
         "&.active::before": {
           content: '""',
           position: "absolute",
@@ -235,7 +236,7 @@ function Item({ item, active, onClose }) {
           bottom: 8,
           width: 3,
           borderRadius: 3,
-          background: "linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)",
+          background: "linear-gradient(180deg, #8B8DF0 0%, #8B5CF6 100%)",
         },
       }}
     >
@@ -312,28 +313,22 @@ export default function Sidebar({ mobileOpen = false, onClose = () => {} }) {
       >
         <Box
           sx={{
-            width: 38,
-            height: 38,
-            borderRadius: 2,
-            display: "grid",
-            placeItems: "center",
-            background: "linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)",
-            color: "#fff",
-            fontWeight: 800,
-            fontSize: 13,
-            boxShadow: "0 8px 20px rgba(79,70,229,.24)",
+            p: 0.5,
+            borderRadius: 2.5,
+            background: "rgba(255,255,255,.05)",
+            border: "1px solid rgba(200,161,90,.18)",
           }}
         >
-          PM
+          <PlanoraLogo size={34} dark showText={false} />
         </Box>
         <Box sx={{ minWidth: 0, flex: 1 }}>
           <Typography
             noWrap
             sx={{ fontSize: 15, fontWeight: 800, color: "#FFFFFF" }}
           >
-            Project Management
+            Planora
           </Typography>
-          <Typography noWrap sx={{ fontSize: 11, color: "#94A3B8" }}>
+          <Typography noWrap sx={{ fontSize: 11, color: "#AAB5D0" }}>
             {role}
           </Typography>
         </Box>
@@ -370,8 +365,8 @@ export default function Sidebar({ mobileOpen = false, onClose = () => {} }) {
                   minHeight: 38,
                   px: 1.25,
                   borderRadius: 1.5,
-                  color: active ? PRIMARY : TEXT_SECONDARY,
-                  "&:hover": { bgcolor: "rgba(255,255,255,.06)" },
+                  color: active ? "#FFFFFF" : SIDEBAR.itemText,
+                  "&:hover": { bgcolor: SIDEBAR.itemHoverBg },
                 }}
               >
                 <Box sx={{ width: 28, display: "grid", placeItems: "center" }}>
