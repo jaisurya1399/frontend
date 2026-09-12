@@ -65,12 +65,12 @@ const NAV_SECTIONS = [
         path: "/developer/daily-scrum",
         icon: GroupsOutlined,
       },
-      {
-        label: "AI Project Manager",
-        path: "/developer/ai-pm",
-        icon: DashboardOutlined,
-        permission: "project.view",
-      },
+      // {
+      //   label: "AI Project Manager",
+      //   path: "/developer/ai-pm",
+      //   icon: DashboardOutlined,
+      //   permission: "project.view",
+      // },
       {
         label: "Reminders",
         path: "/developer/reminders",

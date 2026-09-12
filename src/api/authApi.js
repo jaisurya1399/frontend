@@ -33,14 +33,26 @@ export const logoutApi = async (refreshToken) => {
 };
 
 export const requestPasswordResetApi = async (email) => {
-  await api.post("/auth/password-reset/request", { email });
+  const response = await api.post(
+    "/auth/password-reset/request",
+    { email: String(email || "").trim().toLowerCase() },
+    { skipAuth: true },
+  );
+
+  return response;
 };
 
 export const confirmPasswordResetApi = async (token, newPassword) => {
-  await api.post("/auth/password-reset/confirm", {
-    token,
-    newPassword,
-  });
+  const response = await api.post(
+    "/auth/password-reset/confirm",
+    {
+      token,
+      newPassword,
+    },
+    { skipAuth: true },
+  );
+
+  return response;
 };
 
 export const confirmEmailVerificationApi = async (token) => {

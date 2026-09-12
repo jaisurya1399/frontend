@@ -827,3 +827,18 @@ body {
 .MuiTableCell-root .MuiButton-root {
   height: var(--pm-control-height) !important;
 }
+
+/* auth password reset controls */
+.auth-password-reset .MuiOutlinedInput-root {
+  min-height: 48px;
+  border-radius: 12px;
+}
+.auth-password-reset .MuiOutlinedInput-input {
+  height: 48px;
+  box-sizing: border-box;
+}
+.auth-password-reset .MuiButton-root {
+  min-height: 48px;
+  height: 48px;
+  border-radius: 12px;
+}

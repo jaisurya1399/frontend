@@ -89,6 +89,7 @@ export default function ResetPassword() {
 
   return (
     <Box
+      className="auth-password-reset"
       sx={{
         minHeight: "100vh",
         display: "flex",

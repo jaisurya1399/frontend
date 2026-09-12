@@ -1004,9 +1004,9 @@ export default function Projects() {
                 <strong>Ticket Prefix</strong>
               </TableCell>
 
-              <TableCell>
+              {/* <TableCell>
                 <strong>Status Type</strong>
-              </TableCell>
+              </TableCell> */}
 
               <TableCell align="center">
                 <strong>Actions</strong>
@@ -1127,7 +1127,7 @@ export default function Projects() {
                       />
                     </TableCell>
 
-                    <TableCell>{project.statusType || "default"}</TableCell>
+                    {/* <TableCell>{project.statusType || "default"}</TableCell> */}
 
                     <TableCell align="center">
                       {/* MANAGE USERS */}

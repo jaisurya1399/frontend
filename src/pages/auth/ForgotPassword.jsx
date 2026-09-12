@@ -40,28 +40,65 @@ export default function ForgotPassword() {
     setError("");
     setSuccess("");
 
-    if (!email.trim()) {
+    const normalizedEmail = email.trim().toLowerCase();
+
+    if (!normalizedEmail) {
       setError("Please enter your email.");
+      return;
+    }
+
+    // Browser-level email validation with a clear message.
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(normalizedEmail)) {
+      setError("Please enter a valid email address.");
       return;
     }
 
     setLoading(true);
 
     try {
-      await requestPasswordResetApi(email.trim());
+      const response = await requestPasswordResetApi(normalizedEmail);
+
+      // 204 No Content is the expected successful response from the
+      // backend for a password-reset request.
+      if (response?.status === 204 || response?.status === 200) {
+        setSuccess(GENERIC_SUCCESS_MESSAGE);
+      } else {
+        setError(
+          "Unable to process the password reset request. Please try again.",
+        );
+      }
     } catch (error) {
       console.error("Password reset request error:", error);
-      // Intentionally ignored: we still show the generic success
-      // message below so the response can't reveal whether the
-      // email is registered.
+
+      const status = error.response?.status;
+      const serverMessage =
+        error.response?.data?.message || error.response?.data?.error;
+
+      if (status === 429) {
+        setError("Too many reset requests. Please wait and try again later.");
+      } else if (status >= 500) {
+        setError(
+          "Password reset service is temporarily unavailable. Please try again later.",
+        );
+      } else if (error.code === "ERR_NETWORK") {
+        setError(
+          "Cannot connect to the backend. Make sure Spring Boot is running.",
+        );
+      } else if (serverMessage) {
+        setError(serverMessage);
+      } else {
+        setError(
+          "Unable to process the password reset request. Please try again.",
+        );
+      }
     } finally {
-      setSuccess(GENERIC_SUCCESS_MESSAGE);
       setLoading(false);
     }
   };
 
   return (
     <Box
+      className="auth-password-reset"
       sx={{
         minHeight: "100vh",
         display: "flex",
@@ -126,7 +163,7 @@ export default function ForgotPassword() {
                 marginTop: 0.5,
               }}
             >
-              Enter your email and we'll send you a reset link
+              Enter your registered email and we'll send you a secure reset link
             </Typography>
           </Box>
 
