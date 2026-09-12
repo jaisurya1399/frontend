@@ -1,5 +1,13 @@
-import { useEffect, useState } from "react";
-
+import AddIcon from "@mui/icons-material/Add";
+import ArchiveIcon from "@mui/icons-material/Archive";
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
+import GroupIcon from "@mui/icons-material/Group";
+import RefreshIcon from "@mui/icons-material/Refresh";
+import RestoreIcon from "@mui/icons-material/Restore";
+import StarIcon from "@mui/icons-material/Star";
+import StarBorderIcon from "@mui/icons-material/StarBorder";
+import UnarchiveIcon from "@mui/icons-material/Unarchive";
 import {
   Alert,
   Box,
@@ -15,7 +23,6 @@ import {
   IconButton,
   InputLabel,
   MenuItem,
-  Paper,
   Select,
   Snackbar,
   Switch,
@@ -29,17 +36,9 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
+import { useEffect, useState } from "react";
 
-import AddIcon from "@mui/icons-material/Add";
-import ArchiveIcon from "@mui/icons-material/Archive";
-import DeleteIcon from "@mui/icons-material/Delete";
-import EditIcon from "@mui/icons-material/Edit";
-import GroupIcon from "@mui/icons-material/Group";
-import RefreshIcon from "@mui/icons-material/Refresh";
-import RestoreIcon from "@mui/icons-material/Restore";
-import StarIcon from "@mui/icons-material/Star";
-import StarBorderIcon from "@mui/icons-material/StarBorder";
-import UnarchiveIcon from "@mui/icons-material/Unarchive";
+import { Paper } from "@mui/material";
 
 import {
   archiveProject,

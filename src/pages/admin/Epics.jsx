@@ -1,5 +1,11 @@
-import { useEffect, useMemo, useState } from "react";
-
+import AddIcon from "@mui/icons-material/Add";
+import AssessmentIcon from "@mui/icons-material/Assessment";
+import TicketIcon from "@mui/icons-material/ConfirmationNumber";
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
+import ExpandLessIcon from "@mui/icons-material/ExpandLess";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import RestoreIcon from "@mui/icons-material/Restore";
 import {
   Alert,
   Box,
@@ -24,17 +30,8 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-
-import {
-  Add as AddIcon,
-  Assessment as AssessmentIcon,
-  Delete as DeleteIcon,
-  Edit as EditIcon,
-  ExpandLess as ExpandLessIcon,
-  ExpandMore as ExpandMoreIcon,
-  Restore as RestoreIcon,
-  ConfirmationNumber as TicketIcon,
-} from "@mui/icons-material";
+import { useEffect, useMemo, useState } from "react";
+import EpicAnalyticsDialog from "./EpicAnalyticsDialog";
 
 import {
   createEpic,
@@ -58,8 +55,6 @@ import { getTicketPriorities } from "../../api/ticketPriorityApi";
 import { getTicketStatuses } from "../../api/ticketStatusApi";
 import { getTicketTypes } from "../../api/ticketTypeApi";
 import { getUsers } from "../../api/userApi";
-
-import EpicAnalyticsDialog from "./EpicAnalyticsDialog";
 
 const emptyEpicForm = {
   projectId: "",

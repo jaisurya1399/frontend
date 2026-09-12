@@ -1,5 +1,3 @@
-import { useEffect, useMemo, useState } from "react";
-
 import {
   Alert,
   Box,
@@ -20,6 +18,7 @@ import {
   Tabs,
   Typography,
 } from "@mui/material";
+import { useEffect, useMemo, useState } from "react";
 
 import {
   getEpicBurndown,

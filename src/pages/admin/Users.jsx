@@ -1,5 +1,9 @@
-import { Fragment, useEffect, useState } from "react";
-
+import AddIcon from "@mui/icons-material/Add";
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
+import RefreshIcon from "@mui/icons-material/Refresh";
 import {
   Alert,
   Autocomplete,
@@ -26,13 +30,7 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-
-import AddIcon from "@mui/icons-material/Add";
-import DeleteIcon from "@mui/icons-material/Delete";
-import EditIcon from "@mui/icons-material/Edit";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
-import RefreshIcon from "@mui/icons-material/Refresh";
+import { Fragment, useEffect, useState } from "react";
 
 import {
   createUser,
@@ -779,7 +777,10 @@ export default function Users() {
                         <TableRow>
                           <TableCell
                             colSpan={6}
-                            sx={{ py: 0, borderBottom: isExpanded ? undefined : "none" }}
+                            sx={{
+                              py: 0,
+                              borderBottom: isExpanded ? undefined : "none",
+                            }}
                           >
                             <Collapse in={isExpanded} unmountOnExit>
                               <Box sx={{ py: 2, px: 1 }}>
@@ -1083,9 +1084,8 @@ export default function Users() {
 
         <DialogContent>
           <Typography>
-            Removing <strong>{removeRoleConfirm?.roleName}</strong> will
-            leave this user with no roles assigned. Are you sure you want to
-            continue?
+            Removing <strong>{removeRoleConfirm?.roleName}</strong> will leave
+            this user with no roles assigned. Are you sure you want to continue?
           </Typography>
         </DialogContent>
 

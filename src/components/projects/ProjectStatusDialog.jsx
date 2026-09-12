@@ -1,5 +1,3 @@
-import { useEffect, useState } from "react";
-
 import {
   Button,
   Dialog,
@@ -11,6 +9,7 @@ import {
   Switch,
   TextField,
 } from "@mui/material";
+import { useEffect, useState } from "react";
 
 export default function ProjectStatusDialog({ open, status, onClose, onSave }) {
   const [form, setForm] = useState({

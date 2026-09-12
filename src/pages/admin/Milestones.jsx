@@ -1,5 +1,13 @@
-import { useEffect, useMemo, useState } from "react";
-
+import AddIcon from "@mui/icons-material/Add";
+import CloseIcon from "@mui/icons-material/Close";
+import TicketIcon from "@mui/icons-material/ConfirmationNumber";
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
+import ExpandLessIcon from "@mui/icons-material/ExpandLess";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import FlagIcon from "@mui/icons-material/Flag";
+import SearchIcon from "@mui/icons-material/Search";
+import WarningAmberIcon from "@mui/icons-material/WarningAmber";
 import {
   Box,
   Button,
@@ -31,19 +39,7 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-
-import {
-  Add as AddIcon,
-  Close as CloseIcon,
-  Delete as DeleteIcon,
-  Edit as EditIcon,
-  ExpandLess as ExpandLessIcon,
-  ExpandMore as ExpandMoreIcon,
-  Flag as FlagIcon,
-  Search as SearchIcon,
-  ConfirmationNumber as TicketIcon,
-  WarningAmber as WarningAmberIcon,
-} from "@mui/icons-material";
+import { useEffect, useMemo, useState } from "react";
 
 import {
   assignTicketToMilestone,
@@ -181,9 +177,7 @@ const Milestones = () => {
           setSelectedProjectId(String(list[0].id));
         }
       } catch (err) {
-        showError(
-          err?.response?.data?.message || "Failed to load projects",
-        );
+        showError(err?.response?.data?.message || "Failed to load projects");
       } finally {
         setLoadingProjects(false);
       }
@@ -216,9 +210,7 @@ const Milestones = () => {
       setExpandedId(null);
       setMilestoneTicketsMap({});
     } catch (err) {
-      showError(
-        err?.response?.data?.message || "Failed to load milestones",
-      );
+      showError(err?.response?.data?.message || "Failed to load milestones");
     } finally {
       setLoadingMilestones(false);
     }
@@ -359,9 +351,7 @@ const Milestones = () => {
       closeDialog();
       await loadMilestones(selectedProjectId);
     } catch (err) {
-      showError(
-        err?.response?.data?.message || "Failed to save milestone",
-      );
+      showError(err?.response?.data?.message || "Failed to save milestone");
     } finally {
       setSaving(false);
     }
@@ -379,9 +369,7 @@ const Milestones = () => {
       success("Milestone deleted");
       await loadMilestones(selectedProjectId);
     } catch (err) {
-      showError(
-        err?.response?.data?.message || "Failed to delete milestone",
-      );
+      showError(err?.response?.data?.message || "Failed to delete milestone");
     }
   };
 
@@ -445,9 +433,7 @@ const Milestones = () => {
 
       setMilestoneTicketsMap((previous) => ({
         ...previous,
-        [milestone.id]: Array.isArray(milestoneTickets)
-          ? milestoneTickets
-          : [],
+        [milestone.id]: Array.isArray(milestoneTickets) ? milestoneTickets : [],
       }));
 
       const assignedIds = new Set(
@@ -543,14 +529,16 @@ const Milestones = () => {
     if (!confirmed) return;
 
     try {
-      await removeTicketFromMilestone(selectedProjectId, milestone.id, ticket.id);
+      await removeTicketFromMilestone(
+        selectedProjectId,
+        milestone.id,
+        ticket.id,
+      );
       success("Ticket removed from milestone");
       await loadMilestoneTickets(milestone.id);
       await refreshOneMilestone(milestone.id);
     } catch (err) {
-      showError(
-        err?.response?.data?.message || "Failed to remove ticket",
-      );
+      showError(err?.response?.data?.message || "Failed to remove ticket");
     }
   };
 
@@ -798,7 +786,11 @@ const Milestones = () => {
                         <LinearProgress
                           variant="determinate"
                           value={progress}
-                          color={statusMeta.color === "default" ? "primary" : statusMeta.color}
+                          color={
+                            statusMeta.color === "default"
+                              ? "primary"
+                              : statusMeta.color
+                          }
                           sx={{ height: 8, borderRadius: 4 }}
                         />
                       </Box>
@@ -915,8 +907,7 @@ const Milestones = () => {
                                       variant="caption"
                                       color="text.secondary"
                                     >
-                                      {ticket.responsibleName ||
-                                        "Unassigned"}
+                                      {ticket.responsibleName || "Unassigned"}
                                     </Typography>
                                   </Stack>
                                 </Box>
@@ -1045,7 +1036,8 @@ const Milestones = () => {
         maxWidth="sm"
       >
         <DialogTitle>
-          Add Tickets{addTicketsMilestone ? ` to "${addTicketsMilestone.name}"` : ""}
+          Add Tickets
+          {addTicketsMilestone ? ` to "${addTicketsMilestone.name}"` : ""}
         </DialogTitle>
 
         <DialogContent>

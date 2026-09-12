@@ -1,5 +1,6 @@
-import { useEffect, useMemo, useState } from "react";
-
+import PersonAddAltOutlinedIcon from "@mui/icons-material/PersonAddAltOutlined";
+import SecurityOutlinedIcon from "@mui/icons-material/SecurityOutlined";
+import WorkOutlineOutlinedIcon from "@mui/icons-material/WorkOutlineOutlined";
 import {
   Alert,
   Avatar,
@@ -18,10 +19,7 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-
-import PersonAddAltOutlinedIcon from "@mui/icons-material/PersonAddAltOutlined";
-import SecurityOutlinedIcon from "@mui/icons-material/SecurityOutlined";
-import WorkOutlineOutlinedIcon from "@mui/icons-material/WorkOutlineOutlined";
+import { useEffect, useMemo, useState } from "react";
 
 import { getUsers } from "../../api/userApi";
 

@@ -1,5 +1,7 @@
-import { useEffect, useState } from "react";
-
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
+import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import {
   Alert,
   Box,
@@ -19,14 +21,8 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
-
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-
-import EditIcon from "@mui/icons-material/Edit";
-
-import DeleteIcon from "@mui/icons-material/Delete";
-
-import PersonAddIcon from "@mui/icons-material/PersonAdd";
+import { useEffect, useState } from "react";
+import ProjectUserDialog from "../../components/projects/ProjectUserDialog";
 
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 
@@ -38,8 +34,6 @@ import {
   getProjectUsers,
   updateProjectUser,
 } from "../../api/projectUserApi";
-
-import ProjectUserDialog from "../../components/projects/ProjectUserDialog";
 
 export default function ProjectDetails() {
   const { id } = useParams();

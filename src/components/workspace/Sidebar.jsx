@@ -1,3 +1,5 @@
+import Close from "@mui/icons-material/Close";
+import LogoutOutlined from "@mui/icons-material/LogoutOutlined";
 import {
   Box,
   Drawer,
@@ -12,12 +14,10 @@ import {
 import {
   AccessTimeOutlined,
   AssignmentOutlined,
-  Close,
   DashboardOutlined,
   EventAvailableOutlined,
   FolderOutlined,
   GroupsOutlined,
-  LogoutOutlined,
   NotificationsNoneOutlined,
   PersonOutline,
   Security as SecurityIcon,

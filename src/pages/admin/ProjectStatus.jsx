@@ -1,5 +1,10 @@
-import { useEffect, useMemo, useState } from "react";
-
+import Add from "@mui/icons-material/Add";
+import CheckCircle from "@mui/icons-material/CheckCircle";
+import Close from "@mui/icons-material/Close";
+import Delete from "@mui/icons-material/Delete";
+import Edit from "@mui/icons-material/Edit";
+import Refresh from "@mui/icons-material/Refresh";
+import Restore from "@mui/icons-material/Restore";
 import {
   Alert,
   Box,
@@ -25,16 +30,7 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-
-import {
-  Add,
-  CheckCircle,
-  Close,
-  Delete,
-  Edit,
-  Refresh,
-  Restore,
-} from "@mui/icons-material";
+import { useEffect, useMemo, useState } from "react";
 
 import {
   createProjectStatus,

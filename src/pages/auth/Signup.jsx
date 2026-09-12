@@ -1,6 +1,4 @@
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-
+import PersonAddOutlinedIcon from "@mui/icons-material/PersonAddOutlined";
 import {
   Alert,
   Box,
@@ -11,8 +9,8 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-
-import PersonAddOutlinedIcon from "@mui/icons-material/PersonAddOutlined";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 import { signupApi } from "../../api/authApi";
 import {

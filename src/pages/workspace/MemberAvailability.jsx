@@ -1,5 +1,11 @@
-import { useEffect, useMemo, useState } from "react";
-
+import AddIcon from "@mui/icons-material/Add";
+import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
+import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
+import GroupsIcon from "@mui/icons-material/Groups";
+import SaveIcon from "@mui/icons-material/Save";
+import SettingsIcon from "@mui/icons-material/Settings";
 import {
   Alert,
   Avatar,
@@ -25,19 +31,12 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
+import { useEffect, useMemo, useState } from "react";
 
 import {
-  Add as AddIcon,
   EventAvailable as AvailableIcon,
   EventBusy as BusyIcon,
-  ChevronLeft as ChevronLeftIcon,
-  ChevronRight as ChevronRightIcon,
-  DeleteOutline as DeleteIcon,
-  EditOutlined as EditIcon,
-  GroupsOutlined as GroupsIcon,
   BeachAccess as HolidayIcon,
-  SaveOutlined as SaveIcon,
-  SettingsOutlined as SettingsIcon,
   TodayOutlined as TodayIcon,
   WorkOff as WorkOffIcon,
 } from "@mui/icons-material";
@@ -311,7 +310,7 @@ export default function MemberAvailability() {
 
   const toggleMemberSelfUpdate = async (member) => {
     if (!canManage || !member?.id) return;
-    const next = !Boolean(member.availabilitySelfUpdateOpen);
+    const next = !member.availabilitySelfUpdateOpen;
     try {
       await setAvailabilitySelfUpdate(member.id, next);
       setMembers((current) =>

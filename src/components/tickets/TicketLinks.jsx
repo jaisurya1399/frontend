@@ -1,6 +1,6 @@
-import { useEffect, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
-
+import AddIcon from "@mui/icons-material/Add";
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
+import LinkIcon from "@mui/icons-material/Link";
 import {
   Autocomplete,
   Box,
@@ -17,18 +17,16 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import { useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-import AddIcon from "@mui/icons-material/Add";
-import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
-import LinkIcon from "@mui/icons-material/Link";
-
+import { getTicketById, searchTickets } from "../../api/ticketApi";
 import {
   createTicketRelation,
   deleteTicketRelation,
   getTicketRelationsByRelated,
   getTicketRelationsByTicket,
 } from "../../api/ticketRelationApi";
-import { getTicketById, searchTickets } from "../../api/ticketApi";
 import { useToast } from "../../context/ToastContext";
 import {
   BORDER,
@@ -83,7 +81,11 @@ function getRelationMeta(type) {
 // Ticket Links ("Linked issues")
 // ============================================================
 
-export default function TicketLinks({ ticketId, projectId, basePath = "/developer" }) {
+export default function TicketLinks({
+  ticketId,
+  projectId,
+  basePath = "/developer",
+}) {
   const [links, setLinks] = useState([]);
 
   const [loading, setLoading] = useState(true);
@@ -496,7 +498,9 @@ export default function TicketLinks({ ticketId, projectId, basePath = "/develope
               loading={searchLoading}
               filterOptions={(options) => options}
               getOptionLabel={(option) =>
-                option?.code ? `${option.code} — ${option.name || ""}` : option?.name || ""
+                option?.code
+                  ? `${option.code} — ${option.name || ""}`
+                  : option?.name || ""
               }
               isOptionEqualToValue={(option, value) => option.id === value.id}
               onChange={(_, value) => setSelectedTicket(value)}
@@ -510,9 +514,7 @@ export default function TicketLinks({ ticketId, projectId, basePath = "/develope
                     ...params.InputProps,
                     endAdornment: (
                       <>
-                        {searchLoading ? (
-                          <CircularProgress size={16} />
-                        ) : null}
+                        {searchLoading ? <CircularProgress size={16} /> : null}
                         {params.InputProps.endAdornment}
                       </>
                     ),

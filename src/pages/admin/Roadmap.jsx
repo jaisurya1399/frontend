@@ -1,5 +1,9 @@
-import { useEffect, useMemo, useState } from "react";
-
+import AccountTreeIcon from "@mui/icons-material/AccountTree";
+import ConfirmationNumberIcon from "@mui/icons-material/ConfirmationNumber";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import FlagIcon from "@mui/icons-material/Flag";
+import FolderIcon from "@mui/icons-material/Folder";
+import RefreshIcon from "@mui/icons-material/Refresh";
 import {
   Alert,
   Box,
@@ -21,13 +25,8 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
+import { useEffect, useMemo, useState } from "react";
 
-import AccountTreeIcon from "@mui/icons-material/AccountTree";
-import ConfirmationNumberIcon from "@mui/icons-material/ConfirmationNumber";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import FolderIcon from "@mui/icons-material/Folder";
-import RefreshIcon from "@mui/icons-material/Refresh";
-import FlagIcon from "@mui/icons-material/Flag";
 import { useNavigate } from "react-router-dom";
 
 import { getEpicsByProject } from "../../api/epicApi";

@@ -21,6 +21,7 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
+
 import { useEffect, useMemo, useRef, useState } from "react";
 import { ticketApi, viewTicketAttachment } from "../../api/ticketApi";
 import {
@@ -68,10 +69,14 @@ export default function TicketComments({ ticketId }) {
           const id = c.id || c.commentId;
           try {
             reactions[id] = await getCommentReactions(id);
-          } catch {}
+          } catch {
+            // One comment's reactions failing shouldn't block the rest of the list.
+          }
           try {
             attachments[id] = await getCommentAttachments(id);
-          } catch {}
+          } catch {
+            // One comment's attachments failing shouldn't block the rest of the list.
+          }
         }),
       );
       setReactionMap(reactions);

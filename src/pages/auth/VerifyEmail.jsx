@@ -1,6 +1,4 @@
-import { useEffect, useRef, useState } from "react";
-import { Link, useSearchParams } from "react-router-dom";
-
+import MarkEmailUnreadOutlinedIcon from "@mui/icons-material/MarkEmailUnreadOutlined";
 import {
   Alert,
   Box,
@@ -10,8 +8,8 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-
-import MarkEmailUnreadOutlinedIcon from "@mui/icons-material/MarkEmailUnreadOutlined";
+import { useEffect, useRef, useState } from "react";
+import { Link, useSearchParams } from "react-router-dom";
 
 import {
   confirmEmailVerificationApi,
@@ -174,8 +172,8 @@ export default function VerifyEmail() {
           {/* Missing token */}
           {status === "missing-token" && (
             <Alert severity="error">
-              This verification link is missing or invalid. Please use the
-              link from your verification email, or resend it below.
+              This verification link is missing or invalid. Please use the link
+              from your verification email, or resend it below.
             </Alert>
           )}
 

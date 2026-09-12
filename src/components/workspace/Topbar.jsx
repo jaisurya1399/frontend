@@ -13,12 +13,13 @@ import {
   Toolbar,
   Typography,
 } from "@mui/material";
+import CommandSearch from "../common/CommandSearch";
+import NotificationBell from "../notifications/NotificationBell";
+
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import { BORDER, PRIMARY, TOPBAR } from "../../theme/colors";
-import CommandSearch from "../common/CommandSearch";
-import NotificationBell from "../notifications/NotificationBell";
 
 const SEARCH_ITEMS = [
   ["Dashboard", "/developer"],
@@ -61,7 +62,9 @@ export default function Topbar({ onMenuClick }) {
       if (d?.ticketId) return navigate(`/developer/tickets/${d.ticketId}`);
       if (d?.taskId) return navigate("/developer/tasks");
       if (d?.projectId) return navigate("/developer/projects");
-    } catch {}
+    } catch {
+      // Malformed notification payload — fall through to the default route.
+    }
     navigate("/developer/notifications");
   };
   return (

@@ -1,7 +1,5 @@
-import { Box, Breadcrumbs, Link, Typography } from "@mui/material";
-
-import { useLocation, useNavigate } from "react-router-dom";
-
+import { Box, Breadcrumbs, Typography } from "@mui/material";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import ProjectForm from "../../components/projects/ProjectForm";
 
 import { createProject } from "../../api/projectApi";
@@ -14,13 +12,8 @@ export default function ProjectCreate() {
     : "/developer";
 
   const handleSubmit = async (data) => {
-    try {
-      const project = await createProject(data);
-
-      navigate(`${shellBase}/projects/${project.id}`);
-    } catch (error) {
-      throw error;
-    }
+    const project = await createProject(data);
+    navigate(`${shellBase}/projects/${project.id}`);
   };
 
   return (

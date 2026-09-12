@@ -1,5 +1,10 @@
-import { useEffect, useState } from "react";
-
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
+import DeleteSweepIcon from "@mui/icons-material/DeleteSweep";
+import MarkEmailReadIcon from "@mui/icons-material/MarkEmailRead";
+import MarkEmailUnreadIcon from "@mui/icons-material/MarkEmailUnread";
+import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
+import RefreshIcon from "@mui/icons-material/Refresh";
+import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import {
   Alert,
   Box,
@@ -8,23 +13,17 @@ import {
   CardContent,
   Chip,
   CircularProgress,
+  Divider,
+  FormControlLabel,
   IconButton,
   MenuItem,
   Select,
   Stack,
+  Switch,
   Tooltip,
   Typography,
 } from "@mui/material";
-
-import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
-import DeleteSweepIcon from "@mui/icons-material/DeleteSweep";
-import MarkEmailReadIcon from "@mui/icons-material/MarkEmailRead";
-import MarkEmailUnreadIcon from "@mui/icons-material/MarkEmailUnread";
-import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
-import RefreshIcon from "@mui/icons-material/Refresh";
-import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Switch from "@mui/material/Switch";
+import { useEffect, useState } from "react";
 
 import {
   getNotificationPreferences,

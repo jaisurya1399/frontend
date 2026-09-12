@@ -1,6 +1,4 @@
-import { useState } from "react";
-import { Link, useSearchParams } from "react-router-dom";
-
+import LockResetOutlinedIcon from "@mui/icons-material/LockResetOutlined";
 import {
   Alert,
   Box,
@@ -11,8 +9,8 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-
-import LockResetOutlinedIcon from "@mui/icons-material/LockResetOutlined";
+import { useState } from "react";
+import { Link, useSearchParams } from "react-router-dom";
 
 import { confirmPasswordResetApi } from "../../api/authApi";
 import {
@@ -187,8 +185,8 @@ export default function ResetPassword() {
           ) : success ? (
             <>
               <Alert severity="success">
-                Your password has been reset successfully. You can now sign
-                in with your new password.
+                Your password has been reset successfully. You can now sign in
+                with your new password.
               </Alert>
 
               <Button

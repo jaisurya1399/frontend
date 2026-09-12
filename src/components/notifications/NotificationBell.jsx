@@ -1,3 +1,5 @@
+import NotificationsIcon from "@mui/icons-material/Notifications";
+import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
 import {
   Badge,
   Box,
@@ -11,10 +13,9 @@ import {
   MenuItem,
   Typography,
 } from "@mui/material";
+
 import { useEffect, useState } from "react";
 
-import NotificationsIcon from "@mui/icons-material/Notifications";
-import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
 import { subscribeNotificationRealtime } from "../../api/realtimeApi";
 import notificationService from "../../services/notificationService";
 

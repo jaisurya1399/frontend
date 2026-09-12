@@ -1,6 +1,4 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
-
+import MarkEmailReadOutlinedIcon from "@mui/icons-material/MarkEmailReadOutlined";
 import {
   Alert,
   Box,
@@ -11,8 +9,8 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-
-import MarkEmailReadOutlinedIcon from "@mui/icons-material/MarkEmailReadOutlined";
+import { useState } from "react";
+import { Link } from "react-router-dom";
 
 import { requestPasswordResetApi } from "../../api/authApi";
 import {

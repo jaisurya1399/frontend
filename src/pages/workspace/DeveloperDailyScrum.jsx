@@ -1,5 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
-
+import GroupsOutlinedIcon from "@mui/icons-material/GroupsOutlined";
 import {
   Alert,
   Box,
@@ -20,8 +19,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-
-import GroupsOutlinedIcon from "@mui/icons-material/GroupsOutlined";
+import { useEffect, useMemo, useState } from "react";
 
 import {
   createDailyScrum,

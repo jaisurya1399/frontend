@@ -1,5 +1,3 @@
-import { useEffect, useState } from "react";
-
 import {
   Alert,
   Box,
@@ -11,6 +9,7 @@ import {
   Stack,
   TextField,
 } from "@mui/material";
+import { useEffect, useState } from "react";
 
 import { getActiveProjectStatuses } from "../../api/projectStatusApi";
 

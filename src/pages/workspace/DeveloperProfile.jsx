@@ -12,6 +12,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+
 import { useEffect, useRef, useState } from "react";
 import { getUserById, updateUser } from "../../api/userApi";
 import {
@@ -39,7 +40,9 @@ export default function Profile() {
         if (p.hasProfileImage) {
           try {
             setImage(await getProfileImage(id));
-          } catch {}
+          } catch {
+            // No profile image set — keep the default avatar.
+          }
         }
       } catch (e) {
         setError(e.response?.data?.message || "Failed to load profile");

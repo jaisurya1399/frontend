@@ -7,6 +7,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+
 import { useEffect, useState } from "react";
 import { getActiveProjects } from "../../api/projectApi";
 import {
@@ -99,7 +100,9 @@ export default function ProjectSecuritySchemes() {
                     ...priority,
                     priorityIds: JSON.parse(e.target.value),
                   });
-                } catch {}
+                } catch {
+                  // Ignore invalid JSON while the user is still typing.
+                }
               }}
             />
             <Button

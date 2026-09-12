@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-
+import AddIcon from "@mui/icons-material/Add";
+import RefreshIcon from "@mui/icons-material/Refresh";
 import {
   Alert,
   Box,
@@ -8,10 +8,8 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-
-import AddIcon from "@mui/icons-material/Add";
-
-import RefreshIcon from "@mui/icons-material/Refresh";
+import { useEffect, useState } from "react";
+import ProjectTable from "../../components/projects/ProjectTable";
 
 import { useLocation, useNavigate } from "react-router-dom";
 
@@ -20,8 +18,6 @@ import {
   getProjects,
   restoreProject,
 } from "../../api/projectApi";
-
-import ProjectTable from "../../components/projects/ProjectTable";
 
 export default function ProjectList() {
   const navigate = useNavigate();

@@ -1,5 +1,4 @@
-import { useEffect, useState } from "react";
-
+import HistoryIcon from "@mui/icons-material/History";
 import {
   Alert,
   Box,
@@ -9,8 +8,7 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-
-import HistoryIcon from "@mui/icons-material/History";
+import { useEffect, useState } from "react";
 
 import { ticketApi } from "../../api/ticketApi";
 

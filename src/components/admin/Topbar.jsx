@@ -16,12 +16,13 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
+import CommandSearch from "../common/CommandSearch";
+import NotificationBell from "../notifications/NotificationBell";
+
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import { BORDER, PRIMARY, TOPBAR } from "../../theme/colors";
-import CommandSearch from "../common/CommandSearch";
-import NotificationBell from "../notifications/NotificationBell";
 
 export default function Topbar({ onMenuClick = () => {} }) {
   const { user, logout } = useAuth();
@@ -49,7 +50,9 @@ export default function Topbar({ onMenuClick = () => {} }) {
       const data = JSON.parse(notification.data || "{}");
       if (data.ticketId || data.taskId) return navigate("/admin/tickets");
       if (data.projectId) return navigate("/admin/projects");
-    } catch {}
+    } catch {
+      // Malformed notification payload — fall through to the default route.
+    }
     navigate("/admin/notifications");
   };
 

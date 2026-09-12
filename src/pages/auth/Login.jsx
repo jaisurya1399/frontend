@@ -1,6 +1,4 @@
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import {
   Alert,
   Box,
@@ -11,8 +9,8 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 import { useAuth } from "../../context/AuthContext";
 import {

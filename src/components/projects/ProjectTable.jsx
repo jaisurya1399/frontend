@@ -1,3 +1,7 @@
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
+import RestoreIcon from "@mui/icons-material/Restore";
+import VisibilityIcon from "@mui/icons-material/Visibility";
 import {
   Chip,
   IconButton,
@@ -9,14 +13,6 @@ import {
   TableRow,
   Tooltip,
 } from "@mui/material";
-
-import EditIcon from "@mui/icons-material/Edit";
-
-import VisibilityIcon from "@mui/icons-material/Visibility";
-
-import DeleteIcon from "@mui/icons-material/Delete";
-
-import RestoreIcon from "@mui/icons-material/Restore";
 
 import { TEXT_SECONDARY } from "../../theme/colors";
 

@@ -1,9 +1,15 @@
-import { useEffect, useState } from "react";
-
-import { Avatar, Box, CircularProgress, IconButton, Popover, Stack, Typography } from "@mui/material";
-
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
+import {
+  Avatar,
+  Box,
+  CircularProgress,
+  IconButton,
+  Popover,
+  Stack,
+  Typography,
+} from "@mui/material";
+import { useEffect, useState } from "react";
 
 import {
   getTicketSubscribersByTicket,
@@ -11,7 +17,13 @@ import {
   unsubscribeFromTicket,
 } from "../../api/ticketSubscriberApi";
 import { useToast } from "../../context/ToastContext";
-import { PRIMARY, PRIMARY_SUBTLE, TEXT_SECONDARY, TEXT_PRIMARY, TEXT_FAINT } from "../../theme/colors";
+import {
+  PRIMARY,
+  PRIMARY_SUBTLE,
+  TEXT_FAINT,
+  TEXT_PRIMARY,
+  TEXT_SECONDARY,
+} from "../../theme/colors";
 
 // ============================================================
 // Ticket Watchers

@@ -1,5 +1,6 @@
-import { useEffect, useRef, useState } from "react";
-
+import AttachFileIcon from "@mui/icons-material/AttachFile";
+import DeleteIcon from "@mui/icons-material/Delete";
+import DownloadIcon from "@mui/icons-material/Download";
 import {
   Box,
   Button,
@@ -8,10 +9,7 @@ import {
   Paper,
   Typography,
 } from "@mui/material";
-
-import AttachFileIcon from "@mui/icons-material/AttachFile";
-import DeleteIcon from "@mui/icons-material/Delete";
-import DownloadIcon from "@mui/icons-material/Download";
+import { useEffect, useRef, useState } from "react";
 
 import {
   deleteTicketDocument,

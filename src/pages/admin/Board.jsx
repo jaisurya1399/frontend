@@ -21,6 +21,10 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
+import BoardHistoryDialog from "./BoardHistoryDialog";
+import KanbanBoardConfigDialog from "./KanbanBoardConfigDialog";
+import KanbanCumulativeFlowDialog from "./KanbanCumulativeFlowDialog";
+
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
@@ -34,9 +38,6 @@ import { getSprintsByProject } from "../../api/sprintApi";
 import { getProjectBoard, transitionTicket } from "../../api/ticketApi";
 import { useToast } from "../../context/ToastContext";
 import { ELEVATION_SHADOW, RADIUS, TEXT_FAINT } from "../../theme/colors";
-import BoardHistoryDialog from "./BoardHistoryDialog";
-import KanbanBoardConfigDialog from "./KanbanBoardConfigDialog";
-import KanbanCumulativeFlowDialog from "./KanbanCumulativeFlowDialog";
 
 function TicketCard({ ticket, onClick, onDragStart, showEpic }) {
   const initials = (ticket.responsibleName || "?")

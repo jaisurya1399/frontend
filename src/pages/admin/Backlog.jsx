@@ -1,6 +1,15 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
-import { useNavigate } from "react-router-dom";
-
+import AddIcon from "@mui/icons-material/Add";
+import AssessmentIcon from "@mui/icons-material/Assessment";
+import DeleteIcon from "@mui/icons-material/Delete";
+import DragIndicatorIcon from "@mui/icons-material/DragIndicator";
+import EditIcon from "@mui/icons-material/Edit";
+import ExpandLessIcon from "@mui/icons-material/ExpandLess";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import HistoryIcon from "@mui/icons-material/History";
+import InboxIcon from "@mui/icons-material/Inbox";
+import PlayArrowIcon from "@mui/icons-material/PlayArrow";
+import ShowChartIcon from "@mui/icons-material/ShowChart";
+import StopCircleIcon from "@mui/icons-material/StopCircle";
 import {
   Alert,
   Box,
@@ -29,19 +38,10 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-
-import AddIcon from "@mui/icons-material/Add";
-import AssessmentIcon from "@mui/icons-material/Assessment";
-import DeleteIcon from "@mui/icons-material/Delete";
-import DragIndicatorIcon from "@mui/icons-material/DragIndicator";
-import EditIcon from "@mui/icons-material/Edit";
-import ExpandLessIcon from "@mui/icons-material/ExpandLess";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import HistoryIcon from "@mui/icons-material/History";
-import InboxIcon from "@mui/icons-material/Inbox";
-import PlayArrowIcon from "@mui/icons-material/PlayArrow";
-import ShowChartIcon from "@mui/icons-material/ShowChart";
-import StopCircleIcon from "@mui/icons-material/StopCircle";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import QuickTicketCreateDialog from "../../components/tickets/QuickTicketCreateDialog";
+import SprintAnalyticsDialog from "./SprintAnalyticsDialog";
 
 import { getActiveProjects } from "../../api/projectApi";
 import {
@@ -57,7 +57,6 @@ import {
   updateSprint,
 } from "../../api/sprintApi";
 import { bulkUpdateTickets, getTicketsByProject } from "../../api/ticketApi";
-import QuickTicketCreateDialog from "../../components/tickets/QuickTicketCreateDialog";
 import { useAuth } from "../../context/AuthContext";
 import { useToast } from "../../context/ToastContext";
 import {
@@ -66,7 +65,6 @@ import {
   RADIUS,
   TEXT_FAINT,
 } from "../../theme/colors";
-import SprintAnalyticsDialog from "./SprintAnalyticsDialog";
 
 // ============================================================
 // HELPERS

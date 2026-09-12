@@ -1,6 +1,3 @@
-import { useEffect, useRef, useState } from "react";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
-
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import AssignmentIcon from "@mui/icons-material/Assignment";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
@@ -39,6 +36,10 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import { useEffect, useRef, useState } from "react";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
+import TicketLinks from "../../components/tickets/TicketLinks";
+import TicketWatchers from "../../components/tickets/TicketWatchers";
 
 import { getTicketAuditEvents } from "../../api/auditApi";
 import {
@@ -55,8 +56,6 @@ import {
   uploadTicketAttachment,
   viewTicketAttachment,
 } from "../../api/ticketApi";
-import TicketLinks from "../../components/tickets/TicketLinks";
-import TicketWatchers from "../../components/tickets/TicketWatchers";
 import {
   BORDER,
   CANVAS_BACKGROUND,
