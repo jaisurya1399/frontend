@@ -95,6 +95,53 @@ const emptyForm = {
 
 const MAX_ATTACHMENT_SIZE = 10 * 1024 * 1024;
 
+// Natural ascending ticket order:
+// CCARES-1, CCARES-2, CCARES-9, CCARES-10, CCARES-11...
+// Falls back to numeric ID when a ticket code is unavailable.
+const compareTicketsAscending = (a, b) => {
+  const getCode = (ticket) =>
+    String(ticket?.code ?? ticket?.ticketCode ?? "").trim();
+
+  const aCode = getCode(a);
+  const bCode = getCode(b);
+
+  const aMatch = aCode.match(/^(.*?)(\\d+)$/);
+  const bMatch = bCode.match(/^(.*?)(\\d+)$/);
+
+  if (aMatch && bMatch) {
+    const aPrefix = aMatch[1].toLowerCase();
+    const bPrefix = bMatch[1].toLowerCase();
+
+    if (aPrefix === bPrefix) {
+      const numberCompare = Number(aMatch[2]) - Number(bMatch[2]);
+
+      if (numberCompare !== 0) {
+        return numberCompare;
+      }
+    } else {
+      const prefixCompare = aPrefix.localeCompare(bPrefix, undefined, {
+        numeric: true,
+        sensitivity: "base",
+      });
+
+      if (prefixCompare !== 0) {
+        return prefixCompare;
+      }
+    }
+  } else if (aCode || bCode) {
+    const codeCompare = aCode.localeCompare(bCode, undefined, {
+      numeric: true,
+      sensitivity: "base",
+    });
+
+    if (codeCompare !== 0) {
+      return codeCompare;
+    }
+  }
+
+  return Number(a?.id || 0) - Number(b?.id || 0);
+};
+
 export default function Tickets() {
   const [tickets, setTickets] = useState([]);
 
@@ -524,10 +571,10 @@ export default function Tickets() {
     }
 
     if (!value) {
-      return result;
+      return [...result].sort(compareTicketsAscending);
     }
 
-    return result.filter((ticket) => {
+    result = result.filter((ticket) => {
       const labelText = Array.isArray(ticket.labels)
         ? ticket.labels
             .map((label) => label?.name || label?.labelName || "")
@@ -544,6 +591,8 @@ export default function Tickets() {
         labelText.toLowerCase().includes(value)
       );
     });
+
+    return [...result].sort(compareTicketsAscending);
   }, [
     tickets,
     selectedProjectId,

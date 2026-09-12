@@ -169,6 +169,28 @@ function StatusChip({ status }) {
   );
 }
 
+function compareTicketCodes(a, b) {
+  const codeA = String(
+    a?.code || a?.ticketCode || a?.ticketId || a?.id || "",
+  ).trim();
+  const codeB = String(
+    b?.code || b?.ticketCode || b?.ticketId || b?.id || "",
+  ).trim();
+  const ma = codeA.match(/^(.*?)(\d+)$/);
+  const mb = codeB.match(/^(.*?)(\d+)$/);
+  if (ma && mb) {
+    const prefix = ma[1].localeCompare(mb[1], undefined, {
+      sensitivity: "base",
+    });
+    if (prefix !== 0) return prefix;
+    return Number(ma[2]) - Number(mb[2]);
+  }
+  return codeA.localeCompare(codeB, undefined, {
+    numeric: true,
+    sensitivity: "base",
+  });
+}
+
 function VelocityChart({ rows }) {
   const data = safeArray(rows);
   if (!data.length)
@@ -641,7 +663,7 @@ export default function SprintAnalyticsDialog({
     }
   };
 
-  const reportRows = safeArray(report?.issues);
+  const reportRows = [...safeArray(report?.issues)].sort(compareTicketCodes);
   const historyRows = safeArray(history);
   const velocityRows = safeArray(velocity?.sprints);
   const burndownPoints = safeArray(burndown?.points);
@@ -783,7 +805,7 @@ export default function SprintAnalyticsDialog({
                       </Grid>
                       <Grid item xs={6} md={3}>
                         <Stat
-                          label="Unassigned"
+                          label="Unassigned Issues"
                           value={statistics.backlogTickets}
                           color={COLORS.amber}
                         />
@@ -801,7 +823,7 @@ export default function SprintAnalyticsDialog({
                     <Grid container spacing={1.5}>
                       <Grid item xs={12} md={4}>
                         <Stat
-                          label="Committed / Total Estimate"
+                          label="Current Sprint Estimate"
                           value={statistics.totalEstimation}
                           suffix=" sp"
                           color={COLORS.blue}
@@ -1065,10 +1087,19 @@ export default function SprintAnalyticsDialog({
                     <Grid container spacing={1.5}>
                       <Grid item xs={6} md={3}>
                         <Stat
-                          label="Committed"
+                          label={
+                            report.status === "COMPLETED"
+                              ? "Committed"
+                              : "Current Scope"
+                          }
                           value={report.committedEstimate}
                           suffix=" sp"
                           color={COLORS.blue}
+                          helper={
+                            report.status === "COMPLETED"
+                              ? "Scope committed at sprint start"
+                              : "Current sprint ticket scope"
+                          }
                         />
                       </Grid>
                       <Grid item xs={6} md={3}>
@@ -1188,7 +1219,7 @@ export default function SprintAnalyticsDialog({
                       </Grid>
                       <Grid item xs={6} md={3}>
                         <Stat
-                          label="Remaining"
+                          label="Commitment Remaining"
                           value={commitment.remainingCommittedEstimate}
                           suffix=" sp"
                           color={COLORS.amber}
@@ -1246,14 +1277,15 @@ export default function SprintAnalyticsDialog({
                           variant="body2"
                           color={COLORS.textSecondary}
                         >
-                          Scope change:{" "}
+                          Added scope:{" "}
                           <b>{fmt(commitment.scopeChangeEstimate)} sp</b>
                         </Typography>
                         <Typography
                           variant="body2"
                           color={COLORS.textSecondary}
                         >
-                          Current tickets: <b>{commitment.currentTickets}</b>
+                          Current sprint issues:{" "}
+                          <b>{commitment.currentTickets}</b>
                         </Typography>
                       </Stack>
                     </Paper>

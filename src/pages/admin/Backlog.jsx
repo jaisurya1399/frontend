@@ -105,6 +105,21 @@ const formatDateRange = (start, end) => {
 const sumEstimation = (list = []) =>
   list.reduce((total, ticket) => total + Number(ticket?.estimation || 0), 0);
 
+// Natural ascending ticket order: CCARES-2 comes before CCARES-10.
+const compareTicketsAscending = (a, b) => {
+  const aCode = String(a?.code ?? a?.ticketCode ?? a?.id ?? "");
+  const bCode = String(b?.code ?? b?.ticketCode ?? b?.id ?? "");
+
+  const codeCompare = aCode.localeCompare(bCode, undefined, {
+    numeric: true,
+    sensitivity: "base",
+  });
+
+  if (codeCompare !== 0) return codeCompare;
+
+  return Number(a?.id ?? 0) - Number(b?.id ?? 0);
+};
+
 const isDoneCategory = (category) =>
   category === "DONE" || category === "CANCELLED";
 
@@ -146,11 +161,22 @@ function TicketRow({
     <Card
       variant="outlined"
       draggable
-      onDragStart={(event) => onDragStart(event, ticket)}
+      onDragStart={(event) => {
+        event.currentTarget.style.opacity = "0.55";
+        onDragStart(event, ticket);
+      }}
+      onDragEnd={(event) => {
+        event.currentTarget.style.opacity = "1";
+      }}
       onClick={() => onOpen(ticket.id)}
       sx={{
         cursor: "grab",
         borderRadius: `${RADIUS.card}px`,
+        borderColor: selected ? "primary.main" : "divider",
+        backgroundColor: selected ? "primary.50" : "background.paper",
+        boxShadow: selected ? ELEVATION_SHADOW : "none",
+        transition:
+          "border-color 160ms ease, background-color 160ms ease, box-shadow 160ms ease",
         "&:hover": { borderColor: "primary.main", boxShadow: ELEVATION_SHADOW },
       }}
     >
@@ -784,6 +810,9 @@ function SprintSection({
   onDelete,
   onViewBurndown,
   onViewAnalytics,
+  selectedTicketIds = [],
+  onSelectTicket,
+  onSelectAllTickets,
 }) {
   const [dragOver, setDragOver] = useState(false);
 
@@ -813,6 +842,26 @@ function SprintSection({
         <IconButton size="small" onClick={onToggle}>
           {expanded ? <ExpandLessIcon /> : <ExpandMoreIcon />}
         </IconButton>
+
+        <Checkbox
+          size="small"
+          checked={
+            tickets.length > 0 &&
+            tickets.every((ticket) => selectedTicketIds.includes(ticket.id))
+          }
+          indeterminate={
+            tickets.some((ticket) => selectedTicketIds.includes(ticket.id)) &&
+            !tickets.every((ticket) => selectedTicketIds.includes(ticket.id))
+          }
+          onChange={(event) =>
+            onSelectAllTickets?.(
+              tickets.map((ticket) => ticket.id),
+              event.target.checked,
+            )
+          }
+          onClick={(event) => event.stopPropagation()}
+          disabled={tickets.length === 0}
+        />
 
         <Typography variant="subtitle1" fontWeight={700}>
           {sprint.name}
@@ -887,6 +936,7 @@ function SprintSection({
         <Box
           onDragOver={(e) => {
             e.preventDefault();
+            e.dataTransfer.dropEffect = "move";
             setDragOver(true);
           }}
           onDragLeave={() => setDragOver(false)}
@@ -918,7 +968,8 @@ function SprintSection({
               color="text.secondary"
               sx={{ textAlign: "center", py: 2 }}
             >
-              Drag tickets here to add them to this sprint.
+              Drag one or multiple selected tickets here to add them to this
+              sprint.
             </Typography>
           ) : (
             tickets.map((ticket) => (
@@ -927,6 +978,9 @@ function SprintSection({
                 ticket={ticket}
                 onDragStart={onDragStart}
                 onOpen={onOpenTicket}
+                selectable
+                selected={selectedTicketIds.includes(ticket.id)}
+                onSelect={onSelectTicket}
               />
             ))
           )}
@@ -1066,6 +1120,11 @@ export default function Backlog() {
       const key = ticket.sprintId || null;
       if (!map.has(key)) map.set(key, []);
       map.get(key).push(ticket);
+    });
+
+    // Keep every ticket list in natural ascending order.
+    map.forEach((ticketList, key) => {
+      map.set(key, [...ticketList].sort(compareTicketsAscending));
     });
 
     return map;
@@ -1291,11 +1350,23 @@ export default function Backlog() {
 
   const handleDragStart = (event, ticket) => {
     event.dataTransfer.effectAllowed = "move";
+
+    // Drag the complete selection when the dragged ticket is selected.
+    // Otherwise, drag only the ticket under the pointer.
+    const dragIds = selectedTicketIds.includes(ticket.id)
+      ? selectedTicketIds
+      : [ticket.id];
+
+    const dragTickets = tickets.filter((t) => dragIds.includes(t.id));
+
     event.dataTransfer.setData(
       "text/plain",
       JSON.stringify({
-        ticketId: ticket.id,
-        fromSprintId: ticket.sprintId || null,
+        ticketIds: dragIds,
+        tickets: dragTickets.map((t) => ({
+          id: t.id,
+          sprintId: t.sprintId || null,
+        })),
       }),
     );
   };
@@ -1310,27 +1381,58 @@ export default function Backlog() {
       return;
     }
 
-    const { ticketId, fromSprintId } = payload;
-    if (!ticketId) return;
-    if ((fromSprintId || null) === (targetSprintId || null)) return;
+    // Backward-compatible with the previous single-ticket payload.
+    const draggedTickets =
+      Array.isArray(payload.tickets) && payload.tickets.length
+        ? payload.tickets
+        : payload.ticketId
+          ? [{ id: payload.ticketId, sprintId: payload.fromSprintId || null }]
+          : [];
+
+    if (!draggedTickets.length) return;
+
+    const ticketsToMove = draggedTickets.filter(
+      (item) => (item.sprintId || null) !== (targetSprintId || null),
+    );
+
+    if (!ticketsToMove.length) {
+      toast.info("Selected tickets are already in this location.");
+      return;
+    }
 
     const previousTickets = tickets;
 
+    // Optimistic update: move all selected tickets immediately.
     setTickets((prev) =>
       prev.map((t) =>
-        t.id === ticketId ? { ...t, sprintId: targetSprintId } : t,
+        ticketsToMove.some((item) => item.id === t.id)
+          ? { ...t, sprintId: targetSprintId }
+          : t,
       ),
     );
 
     try {
-      if (targetSprintId) {
-        await addTicketToSprint(targetSprintId, ticketId);
-      } else {
-        await moveTicketToBacklog(ticketId);
-      }
+      await Promise.all(
+        ticketsToMove.map((item) =>
+          targetSprintId
+            ? addTicketToSprint(targetSprintId, item.id)
+            : moveTicketToBacklog(item.id),
+        ),
+      );
+
+      setSelectedTicketIds((prev) =>
+        prev.filter((id) => !ticketsToMove.some((item) => item.id === id)),
+      );
+
+      toast.success(
+        `${ticketsToMove.length} ticket${ticketsToMove.length === 1 ? "" : "s"} moved successfully.`,
+      );
     } catch (err) {
       setTickets(previousTickets);
-      toast.error(err?.response?.data?.message || "Failed to move ticket.");
+      toast.error(
+        err?.response?.data?.message ||
+          "Some tickets could not be moved. Changes were reverted.",
+      );
     }
   };
 
@@ -1380,6 +1482,32 @@ export default function Backlog() {
   const selectedProject = projects.find(
     (p) => Number(p.id) === Number(selectedProjectId),
   );
+
+  const handleTicketSelection = useCallback((ticketId, checked) => {
+    setSelectedTicketIds((prev) =>
+      checked
+        ? [...new Set([...prev, ticketId])]
+        : prev.filter((id) => id !== ticketId),
+    );
+  }, []);
+
+  const handleSelectAllTickets = useCallback((ticketIds, checked) => {
+    setSelectedTicketIds((prev) => {
+      if (checked) return [...new Set([...prev, ...ticketIds])];
+      return prev.filter((id) => !ticketIds.includes(id));
+    });
+  }, []);
+
+  const selectAllVisibleTickets = () => {
+    const visibleIds = [
+      ...visibleBacklogTickets,
+      ...orderedOpenSprints.flatMap(
+        (sprint) => ticketsBySprint.get(sprint.id) || [],
+      ),
+    ].map((ticket) => ticket.id);
+
+    setSelectedTicketIds(visibleIds);
+  };
 
   const bulkMoveSelectedToBacklog = async () => {
     if (!selectedTicketIds.length || !selectedProjectId) return;
@@ -1492,16 +1620,66 @@ export default function Backlog() {
         </CardContent>
       </Card>
 
-      {selectedTicketIds.length > 0 && (
-        <Stack direction="row" spacing={1} sx={{ mb: 2 }}>
-          <Button variant="outlined" onClick={bulkMoveSelectedToBacklog}>
-            Move selected to backlog ({selectedTicketIds.length})
-          </Button>
-          <Button onClick={() => setSelectedTicketIds([])}>
-            Clear selection
-          </Button>
+      <Card
+        variant="outlined"
+        sx={{
+          mb: 2,
+          borderRadius: `${RADIUS.card}px`,
+          borderStyle: selectedTicketIds.length ? "solid" : "dashed",
+          backgroundColor: selectedTicketIds.length
+            ? "primary.50"
+            : "background.paper",
+        }}
+      >
+        <Stack
+          direction={{ xs: "column", sm: "row" }}
+          alignItems={{ xs: "stretch", sm: "center" }}
+          spacing={1}
+          sx={{ p: 1.25 }}
+        >
+          <Stack
+            direction="row"
+            alignItems="center"
+            spacing={1}
+            sx={{ flex: 1 }}
+          >
+            <DragIndicatorIcon color="action" fontSize="small" />
+            <Typography variant="body2" fontWeight={600}>
+              {selectedTicketIds.length
+                ? `${selectedTicketIds.length} ticket${selectedTicketIds.length === 1 ? "" : "s"} selected`
+                : "Multi-select & drag"}
+            </Typography>
+            <Typography variant="caption" color="text.secondary">
+              Select one or multiple tickets, then drag any selected ticket
+              between Backlog and Sprints.
+            </Typography>
+          </Stack>
+
+          <Stack direction="row" spacing={1}>
+            <Button
+              size="small"
+              variant="text"
+              onClick={selectAllVisibleTickets}
+            >
+              Select all
+            </Button>
+            {selectedTicketIds.length > 0 && (
+              <>
+                <Button
+                  size="small"
+                  variant="outlined"
+                  onClick={bulkMoveSelectedToBacklog}
+                >
+                  Move to backlog
+                </Button>
+                <Button size="small" onClick={() => setSelectedTicketIds([])}>
+                  Clear
+                </Button>
+              </>
+            )}
+          </Stack>
         </Stack>
-      )}
+      </Card>
 
       {error && (
         <Alert severity="error" sx={{ mb: 3 }}>
@@ -1560,6 +1738,9 @@ export default function Backlog() {
               onDelete={() => handleDeleteSprint(sprint)}
               onViewBurndown={() => setBurndownSprint(sprint)}
               onViewAnalytics={() => setAnalyticsSprint(sprint)}
+              selectedTicketIds={selectedTicketIds}
+              onSelectTicket={handleTicketSelection}
+              onSelectAllTickets={handleSelectAllTickets}
             />
           ))}
 
@@ -1587,6 +1768,32 @@ export default function Backlog() {
 
               <InboxIcon fontSize="small" color="action" />
 
+              <Checkbox
+                size="small"
+                checked={
+                  backlogTickets.length > 0 &&
+                  backlogTickets.every((ticket) =>
+                    selectedTicketIds.includes(ticket.id),
+                  )
+                }
+                indeterminate={
+                  backlogTickets.some((ticket) =>
+                    selectedTicketIds.includes(ticket.id),
+                  ) &&
+                  !backlogTickets.every((ticket) =>
+                    selectedTicketIds.includes(ticket.id),
+                  )
+                }
+                onChange={(event) =>
+                  handleSelectAllTickets(
+                    backlogTickets.map((ticket) => ticket.id),
+                    event.target.checked,
+                  )
+                }
+                onClick={(event) => event.stopPropagation()}
+                disabled={backlogTickets.length === 0}
+              />
+
               <Typography variant="subtitle1" fontWeight={700}>
                 Backlog
               </Typography>
@@ -1602,10 +1809,16 @@ export default function Backlog() {
               <Divider />
 
               <Box
-                onDragOver={(e) => e.preventDefault()}
+                onDragOver={(e) => {
+                  e.preventDefault();
+                  e.dataTransfer.dropEffect = "move";
+                }}
                 onDrop={(e) => handleDropOnSprint(e, null)}
                 sx={{
                   p: 1.5,
+                  borderRadius: 2,
+                  transition: "background-color 160ms ease",
+                  "&:hover": { backgroundColor: "action.hover" },
                   display: "flex",
                   flexDirection: "column",
                   gap: 1,
@@ -1631,13 +1844,7 @@ export default function Backlog() {
                       onOpen={handleOpenTicket}
                       selectable
                       selected={selectedTicketIds.includes(ticket.id)}
-                      onSelect={(id, checked) =>
-                        setSelectedTicketIds((prev) =>
-                          checked
-                            ? [...new Set([...prev, id])]
-                            : prev.filter((x) => x !== id),
-                        )
-                      }
+                      onSelect={handleTicketSelection}
                     />
                   ))
                 )}
