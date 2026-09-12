@@ -6,6 +6,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import RestoreIcon from "@mui/icons-material/Restore";
+
 import {
   Alert,
   Box,
@@ -30,7 +31,9 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
+
 import { useEffect, useMemo, useState } from "react";
+
 import EpicAnalyticsDialog from "./EpicAnalyticsDialog";
 
 import {
@@ -42,6 +45,7 @@ import {
   updateEpic,
 } from "../../api/epicApi";
 
+import { getProjectMilestones } from "../../api/milestoneApi";
 import { getProjects } from "../../api/projectApi";
 
 import {
@@ -62,6 +66,7 @@ const emptyEpicForm = {
   startsAt: "",
   endsAt: "",
   parentId: "",
+  milestoneId: "",
 };
 
 const emptyTicketForm = {
@@ -77,6 +82,9 @@ const emptyTicketForm = {
   priorityId: "",
   estimation: 0,
   epicId: "",
+
+  // NEW
+  dueDate: "",
 };
 
 const Epics = () => {
@@ -86,6 +94,8 @@ const Epics = () => {
 
   const [projects, setProjects] = useState([]);
   const [epics, setEpics] = useState([]);
+  const [milestones, setMilestones] = useState([]);
+  const [loadingMilestones, setLoadingMilestones] = useState(false);
 
   const [selectedProjectId, setSelectedProjectId] = useState("");
 
@@ -150,8 +160,10 @@ const Epics = () => {
   useEffect(() => {
     if (selectedProjectId) {
       loadEpics(selectedProjectId);
+      loadMilestones(selectedProjectId);
     } else {
       setEpics([]);
+      setMilestones([]);
       setExpandedEpicIds([]);
       setEpicTickets({});
     }
@@ -194,7 +206,14 @@ const Epics = () => {
         ? await getEpicsByProject(projectId)
         : await getActiveEpicsByProject(projectId);
 
-      setEpics(Array.isArray(data) ? data : []);
+      const epicList = Array.isArray(data) ? data : [];
+
+      // Sort Epic by ID in ascending order
+      const sortedEpics = [...epicList].sort((a, b) => {
+        return Number(a.id) - Number(b.id);
+      });
+
+      setEpics(sortedEpics);
 
       setExpandedEpicIds([]);
       setEpicTickets({});
@@ -205,6 +224,25 @@ const Epics = () => {
       );
     } finally {
       setLoadingEpics(false);
+    }
+  };
+
+  const loadMilestones = async (projectId = selectedProjectId) => {
+    if (!projectId) return;
+
+    try {
+      setLoadingMilestones(true);
+
+      const data = await getProjectMilestones(projectId);
+
+      setMilestones(Array.isArray(data) ? data : []);
+    } catch (error) {
+      showMessage(
+        error?.response?.data?.message || "Failed to load milestones",
+        "error",
+      );
+    } finally {
+      setLoadingMilestones(false);
     }
   };
 
@@ -249,6 +287,7 @@ const Epics = () => {
       startsAt: epic.startsAt || "",
       endsAt: epic.endsAt || "",
       parentId: epic.parentId ? String(epic.parentId) : "",
+      milestoneId: epic.milestoneId ? String(epic.milestoneId) : "",
     });
 
     setEpicDialogOpen(true);
@@ -302,6 +341,11 @@ const Epics = () => {
       return;
     }
 
+    if (!epicForm.milestoneId) {
+      showMessage("Please select a milestone", "error");
+      return;
+    }
+
     try {
       setSavingEpic(true);
 
@@ -311,6 +355,7 @@ const Epics = () => {
         startsAt: epicForm.startsAt,
         endsAt: epicForm.endsAt,
         parentId: epicForm.parentId ? Number(epicForm.parentId) : null,
+        milestoneId: Number(epicForm.milestoneId),
       };
 
       let savedEpic;
@@ -329,7 +374,6 @@ const Epics = () => {
 
       await loadEpics(epicForm.projectId);
 
-      // Automatically select newly created/updated epic for convenience.
       if (savedEpic?.id) {
         setExpandedEpicIds((previous) => [...previous, savedEpic.id]);
       }
@@ -476,16 +520,32 @@ const Epics = () => {
     setTicketForm({
       name: ticket.name || "",
       content: ticket.content || "",
+
       ownerId: ticket.ownerId ? String(ticket.ownerId) : "",
+
       responsibleId: ticket.responsibleId ? String(ticket.responsibleId) : "",
+
       statusId: ticket.statusId ? String(ticket.statusId) : "",
+
       projectId: ticket.projectId || epic.projectId || selectedProjectId,
+
       code: ticket.code || "",
+
       typeId: ticket.typeId ? String(ticket.typeId) : "",
+
       order: ticket.order ?? 0,
+
       priorityId: ticket.priorityId ? String(ticket.priorityId) : "",
+
       estimation: ticket.estimation ?? 0,
+
       epicId: epic.id,
+
+      // NEW
+      // Convert backend datetime into
+      // yyyy-MM-ddTHH:mm format required by
+      // datetime-local input.
+      dueDate: ticket.dueDate ? String(ticket.dueDate).slice(0, 16) : "",
     });
 
     setTicketDialogOpen(true);
@@ -508,19 +568,37 @@ const Epics = () => {
     }));
   };
 
+  // =========================================================
+  // TICKET PAYLOAD
+  // =========================================================
+
   const buildTicketPayload = () => {
     const payload = {
       name: ticketForm.name.trim(),
+
       content: ticketForm.content.trim(),
+
       ownerId: Number(ticketForm.ownerId),
+
       statusId: Number(ticketForm.statusId),
+
       projectId: Number(ticketForm.projectId),
+
       code: ticketForm.code.trim(),
+
       typeId: Number(ticketForm.typeId),
+
       order: Number(ticketForm.order || 0),
+
       priorityId: Number(ticketForm.priorityId),
+
       estimation: Number(ticketForm.estimation || 0),
+
       epicId: Number(ticketForm.epicId),
+
+      // NEW
+      // Send null when no due date is selected.
+      dueDate: ticketForm.dueDate ? ticketForm.dueDate : null,
     };
 
     if (ticketForm.responsibleId) {
@@ -532,41 +610,46 @@ const Epics = () => {
     return payload;
   };
 
+  // =========================================================
+  // SAVE TICKET
+  // =========================================================
+
   const saveTicket = async () => {
     if (!ticketForm.name.trim()) {
       showMessage("Ticket name is required", "error");
+
       return;
     }
 
     if (!ticketForm.content.trim()) {
       showMessage("Ticket content is required", "error");
+
       return;
     }
 
     if (!ticketForm.ownerId) {
       showMessage("Owner is required", "error");
+
       return;
     }
 
     if (!ticketForm.statusId) {
       showMessage("Status is required", "error");
+
       return;
     }
 
     if (!ticketForm.typeId) {
       showMessage("Ticket type is required", "error");
+
       return;
     }
 
     if (!ticketForm.priorityId) {
       showMessage("Priority is required", "error");
+
       return;
     }
-
-    // if (!ticketForm.code.trim()) {
-    //   showMessage("Ticket code is required", "error");
-    //   return;
-    // }
 
     try {
       setSavingTicket(true);
@@ -656,9 +739,15 @@ const Epics = () => {
       ====================================================== */}
 
       <Stack
-        direction={{ xs: "column", md: "row" }}
+        direction={{
+          xs: "column",
+          md: "row",
+        }}
         justifyContent="space-between"
-        alignItems={{ xs: "stretch", md: "center" }}
+        alignItems={{
+          xs: "stretch",
+          md: "center",
+        }}
         spacing={2}
         mb={3}
       >
@@ -688,7 +777,13 @@ const Epics = () => {
 
       <Card sx={{ mb: 3 }}>
         <CardContent>
-          <Stack direction={{ xs: "column", md: "row" }} spacing={2}>
+          <Stack
+            direction={{
+              xs: "column",
+              md: "row",
+            }}
+            spacing={2}
+          >
             <FormControl fullWidth>
               <InputLabel>Project</InputLabel>
 
@@ -779,6 +874,15 @@ const Epics = () => {
 
                         <Chip size="small" label={`EPIC-${epic.id}`} />
 
+                        {epic.milestoneName && (
+                          <Chip
+                            size="small"
+                            variant="outlined"
+                            color="primary"
+                            label={`Milestone: ${epic.milestoneName}`}
+                          />
+                        )}
+
                         {epic.deletedAt && (
                           <Chip size="small" color="error" label="Deleted" />
                         )}
@@ -809,6 +913,7 @@ const Epics = () => {
                             <EditIcon />
                           </IconButton>
                         </Tooltip>
+
                         <Tooltip title="Epic Progress / Burndown / Report">
                           <IconButton
                             color="info"
@@ -900,7 +1005,11 @@ const Epics = () => {
                               >
                                 <TicketIcon fontSize="small" color="action" />
 
-                                <Box sx={{ flex: 1 }}>
+                                <Box
+                                  sx={{
+                                    flex: 1,
+                                  }}
+                                >
                                   <Stack
                                     direction="row"
                                     spacing={1}
@@ -922,6 +1031,17 @@ const Epics = () => {
                                   >
                                     Ticket ID: {ticket.id}
                                   </Typography>
+
+                                  {ticket.dueDate && (
+                                    <Typography
+                                      variant="caption"
+                                      color="text.secondary"
+                                      display="block"
+                                    >
+                                      Due:{" "}
+                                      {String(ticket.dueDate).replace("T", " ")}
+                                    </Typography>
+                                  )}
                                 </Box>
 
                                 <Tooltip title="Edit Ticket">
@@ -988,6 +1108,32 @@ const Epics = () => {
                   </MenuItem>
                 ))}
               </Select>
+            </FormControl>
+
+            <FormControl fullWidth required>
+              <InputLabel>Milestone</InputLabel>
+
+              <Select
+                name="milestoneId"
+                value={epicForm.milestoneId}
+                label="Milestone"
+                onChange={handleEpicChange}
+                disabled={loadingMilestones || milestones.length === 0}
+              >
+                {milestones
+                  .filter((milestone) => milestone.status !== "CANCELLED")
+                  .map((milestone) => (
+                    <MenuItem key={milestone.id} value={String(milestone.id)}>
+                      {milestone.name}
+                    </MenuItem>
+                  ))}
+              </Select>
+
+              {milestones.length === 0 && (
+                <Typography variant="caption" color="error" sx={{ mt: 0.5 }}>
+                  Create a milestone for this project before creating an Epic.
+                </Typography>
+              )}
             </FormControl>
 
             <TextField
@@ -1160,14 +1306,16 @@ const Epics = () => {
 
             {/* Code */}
 
-            {/* <TextField
+            {/*
+            <TextField
               name="code"
               label="Ticket Code"
               value={ticketForm.code}
               onChange={handleTicketChange}
               fullWidth
               required
-            /> */}
+            />
+            */}
 
             {/* Owner */}
 
@@ -1293,6 +1441,23 @@ const Epics = () => {
                 min: 0,
                 step: 0.5,
               }}
+            />
+
+            {/* =================================================
+                DUE DATE & TIME
+            ================================================== */}
+
+            <TextField
+              name="dueDate"
+              label="Due Date & Time"
+              type="datetime-local"
+              value={ticketForm.dueDate}
+              onChange={handleTicketChange}
+              InputLabelProps={{
+                shrink: true,
+              }}
+              fullWidth
+              helperText="Set the deadline for this ticket."
             />
           </Stack>
         </DialogContent>

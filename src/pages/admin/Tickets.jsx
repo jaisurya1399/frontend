@@ -1185,6 +1185,14 @@ export default function Tickets() {
     return user?.name || user?.fullName || user?.email || "-";
   };
 
+  const getEstimation = (estimation) => {
+    if (estimation === null || estimation === undefined || estimation === "") {
+      return "-";
+    }
+
+    return `${Number(estimation).toFixed(2)} h`;
+  };
+
   const getTicketLabelIds = (ticket) => {
     if (Array.isArray(ticket.labelIds)) {
       return ticket.labelIds.map(String);
@@ -1702,6 +1710,10 @@ export default function Tickets() {
 
                       <Typography variant="body2" color="text.secondary">
                         Assignee: {getUserName(ticket.responsibleId)}
+                      </Typography>
+
+                      <Typography variant="body2" color="text.secondary">
+                        Estimation: {getEstimation(ticket.estimation)}
                       </Typography>
 
                       {ticketLabels.length > 0 && (

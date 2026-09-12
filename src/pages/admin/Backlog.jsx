@@ -1620,67 +1620,6 @@ export default function Backlog() {
         </CardContent>
       </Card>
 
-      <Card
-        variant="outlined"
-        sx={{
-          mb: 2,
-          borderRadius: `${RADIUS.card}px`,
-          borderStyle: selectedTicketIds.length ? "solid" : "dashed",
-          backgroundColor: selectedTicketIds.length
-            ? "primary.50"
-            : "background.paper",
-        }}
-      >
-        <Stack
-          direction={{ xs: "column", sm: "row" }}
-          alignItems={{ xs: "stretch", sm: "center" }}
-          spacing={1}
-          sx={{ p: 1.25 }}
-        >
-          <Stack
-            direction="row"
-            alignItems="center"
-            spacing={1}
-            sx={{ flex: 1 }}
-          >
-            <DragIndicatorIcon color="action" fontSize="small" />
-            <Typography variant="body2" fontWeight={600}>
-              {selectedTicketIds.length
-                ? `${selectedTicketIds.length} ticket${selectedTicketIds.length === 1 ? "" : "s"} selected`
-                : "Multi-select & drag"}
-            </Typography>
-            <Typography variant="caption" color="text.secondary">
-              Select one or multiple tickets, then drag any selected ticket
-              between Backlog and Sprints.
-            </Typography>
-          </Stack>
-
-          <Stack direction="row" spacing={1}>
-            <Button
-              size="small"
-              variant="text"
-              onClick={selectAllVisibleTickets}
-            >
-              Select all
-            </Button>
-            {selectedTicketIds.length > 0 && (
-              <>
-                <Button
-                  size="small"
-                  variant="outlined"
-                  onClick={bulkMoveSelectedToBacklog}
-                >
-                  Move to backlog
-                </Button>
-                <Button size="small" onClick={() => setSelectedTicketIds([])}>
-                  Clear
-                </Button>
-              </>
-            )}
-          </Stack>
-        </Stack>
-      </Card>
-
       {error && (
         <Alert severity="error" sx={{ mb: 3 }}>
           {error}
