@@ -1959,26 +1959,6 @@ export default function Tickets() {
             </FormControl>
 
             <FormControl fullWidth>
-              <InputLabel>Sprint</InputLabel>
-
-              <Select
-                name="sprintId"
-                value={form.sprintId}
-                label="Sprint"
-                onChange={handleChange}
-                disabled={!form.projectId}
-              >
-                <MenuItem value="">Backlog</MenuItem>
-
-                {sprints.map((sprint) => (
-                  <MenuItem key={sprint.id} value={String(sprint.id)}>
-                    {sprint.name}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-
-            <FormControl fullWidth>
               <InputLabel>Milestone</InputLabel>
 
               <Select
@@ -1993,48 +1973,6 @@ export default function Tickets() {
                 {milestones.map((milestone) => (
                   <MenuItem key={milestone.id} value={String(milestone.id)}>
                     {milestone.name}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-
-            <FormControl fullWidth>
-              <InputLabel>Labels</InputLabel>
-
-              <Select
-                multiple
-                name="labelIds"
-                value={form.labelIds}
-                label="Labels"
-                onChange={handleChange}
-                disabled={!form.projectId}
-                renderValue={(selected) => (
-                  <Box
-                    sx={{
-                      display: "flex",
-                      flexWrap: "wrap",
-                      gap: 0.5,
-                    }}
-                  >
-                    {selected.map((id) => {
-                      const label = labels.find(
-                        (item) => String(item.id) === String(id),
-                      );
-
-                      return (
-                        <Chip
-                          key={id}
-                          size="small"
-                          label={label?.name || label?.labelName || id}
-                        />
-                      );
-                    })}
-                  </Box>
-                )}
-              >
-                {labels.map((label) => (
-                  <MenuItem key={label.id} value={String(label.id)}>
-                    {label.name || label.labelName}
                   </MenuItem>
                 ))}
               </Select>
